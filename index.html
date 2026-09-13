@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CodeClub — comunidade, projetos e eventos de tecnologia no Inteli." />
+    <meta name="theme-color" content="#fcf8ff" />
+    <title>CodeClub — tecnologia feita em conjunto</title>
+    <link rel="icon" href="public/assets/references/reference-08.png" />
+    <script>document.documentElement.classList.add("js");</script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#inicio" aria-label="CodeClub, início">
+        <span class="brand-mark" aria-hidden="true">{i}</span>
+        <span>Code Club</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+      <nav class="main-nav" aria-label="Navegação principal" data-menu>
+        <a href="#sobre">Sobre</a>
+        <a href="#competencias">Matérias</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#equipe">Equipe</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-login" href="login.html">Entrar</a>
+        <a class="button button-primary button-small" href="#contato">Entre em contato</a>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="event-hero" id="inicio" data-event-carousel aria-labelledby="event-title">
+        <div class="event-slides" aria-live="polite">
+          <figure class="event-slide is-active" data-event-slide>
+            <img src="public/assets/events/event-01.png" alt="Estudantes colaborando no CodeClub Hackathon" />
+          </figure>
+          <figure class="event-slide" data-event-slide>
+            <img src="public/assets/events/event-02.png" alt="Crianças participando de uma aula do Code Kids" />
+          </figure>
+          <figure class="event-slide" data-event-slide>
+            <img src="public/assets/events/event-03.png" alt="Adolescentes participando de uma aula do Code Teens" />
+          </figure>
+        </div>
+        <div class="event-shade" aria-hidden="true"></div>
+
+        <div class="event-hero-content">
+          <h1 id="event-title" class="reveal"><span data-event-title>CodeClub<br /><em>Hackathon</em></span></h1>
+          <p class="event-lead reveal" data-event-description>Um hackathon para jovens do ensino médio transformarem ideias em protótipos.</p>
+          <div class="event-actions reveal">
+            <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
+            <a class="button button-ghost-light" href="#sobre">Saiba mais</a>
+          </div>
+        </div>
+        <img class="event-mascot" src="public/assets/brand/mascot-wave.png" alt="Mascote robô do Code Club acenando" />
+
+        <div class="event-controls">
+          <div class="event-count"><strong data-event-current>01</strong><span>/ 03</span></div>
+          <div class="event-progress" aria-hidden="true"><span data-event-progress></span></div>
+          <button type="button" aria-label="Imagem anterior" data-event-prev>←</button>
+          <button type="button" aria-label="Próxima imagem" data-event-next>→</button>
+        </div>
+      </section>
+
+      <section class="story-scroll" id="sobre" data-story aria-label="Os valores do CodeClub">
+        <div class="story-sticky">
+          <div class="story-heading" data-story-heading>
+            <h2>Tecnologia aproxima quando ninguém fica de fora.</h2>
+          </div>
+
+          <div class="story-photo" data-story-photo>
+            <img src="public/assets/references/reference-02.png" alt="Pessoas reunidas em círculo, de mãos dadas" />
+            <div class="story-center"><span>{i}</span><b>Code<br />Club</b></div>
+          </div>
+
+          <article class="story-card story-card-one" data-story-card data-start="0.22">
+            <strong>Aprender<br />fazendo</strong>
+            <p>Ideias viram experimentos, não ficam em apresentações.</p>
+          </article>
+          <article class="story-card story-card-two" data-story-card data-start="0.4">
+            <strong>Troca<br />aberta</strong>
+            <p>Todo repertório importa. Todo mundo tem algo para ensinar.</p>
+          </article>
+          <article class="story-card story-card-three" data-story-card data-start="0.58">
+            <strong>Impacto<br />real</strong>
+            <p>Tecnologia faz sentido quando melhora algo ao redor.</p>
+          </article>
+          <article class="story-card story-card-four" data-story-card data-start="0.72">
+            <strong>Juntos<br />é melhor</strong>
+            <p>Projetos crescem quando diferentes pessoas constroem lado a lado.</p>
+          </article>
+
+          <div class="story-progress" aria-hidden="true"><span data-story-progress></span></div>
+          <span class="story-step" data-story-step>01 / 04</span>
+        </div>
+      </section>
+
+      <section class="competencies section-standard" id="competencias" aria-labelledby="competencies-title">
+        <div class="standard-heading reveal">
+          <h2 id="competencies-title">Matérias para criar,<br />pensar e transformar.</h2>
+          <p>Aprendizados pensados para crianças descobrirem a tecnologia de forma prática, segura e divertida.</p>
+        </div>
+
+        <div class="competency-grid page-shell">
+          <article class="competency-card reveal">
+            <div class="competency-icon icon-code" aria-hidden="true"><span>&lt;</span><b>/</b><span>&gt;</span></div>
+            <span>01</span><h3>Pensamento Computacional</h3>
+            <p>Lógica, decomposição de problemas e criação de estratégias por meio de jogos e desafios.</p>
+          </article>
+          <article class="competency-card reveal reveal-late">
+            <div class="competency-icon icon-design" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>02</span><h3>Programação Criativa</h3>
+            <p>Histórias, animações e jogos interativos para aprender os fundamentos da programação criando.</p>
+          </article>
+          <article class="competency-card reveal">
+            <div class="competency-icon icon-ai" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <span>03</span><h3>Robótica &amp; Eletrônica</h3>
+            <p>Sensores, circuitos e protótipos que conectam código, movimento e experimentação.</p>
+          </article>
+          <article class="competency-card reveal reveal-late">
+            <div class="competency-icon icon-impact" aria-hidden="true"><i></i><i></i></div>
+            <span>04</span><h3>Cidadania Digital</h3>
+            <p>Uso consciente da internet, segurança, colaboração e responsabilidade no mundo digital.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="projects" id="projetos" aria-labelledby="projects-title">
+        <div class="projects-heading page-shell reveal">
+          <div><h2 id="projects-title">Coisas que já saíram<br />do papel.</h2></div>
+          <p>Uma seleção de experimentos, produtos e iniciativas criadas pelas frentes do clube.</p>
+        </div>
+
+        <div class="project-slider" data-project-slider tabindex="0" aria-label="Projetos em destaque">
+          <article class="project-card project-blue" data-project-book>
+            <div class="project-book">
+              <div class="book-spread">
+                <div class="book-page book-page-right"><span class="book-folio">01</span><div class="project-copy"><h3>Lab Aberto</h3><p>Oficinas que aproximam crianças de novas tecnologias por meio de experiências práticas.</p></div></div>
+              </div>
+              <div class="book-leaf">
+                <div class="book-closed" aria-hidden="true"><span>PROJETO 01</span><strong>Lab<br />Aberto</strong><small>Desenvolvimento</small></div>
+                <div class="book-page book-page-left"><div class="project-meta"><span>01</span><span>DESENVOLVIMENTO</span></div><div class="project-photo"><img src="public/assets/events/event-03.png" alt="Equipe desenvolvendo um protótipo de robótica" /></div></div>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-coral" data-project-book>
+            <div class="project-book">
+              <div class="book-spread">
+                <div class="book-page book-page-right"><span class="book-folio">02</span><div class="project-copy"><h3>Clubinho AI</h3><p>Um assistente amigável para orientar atividades, projetos e descobertas dentro do clube.</p></div></div>
+              </div>
+              <div class="book-leaf">
+                <div class="book-closed" aria-hidden="true"><span>PROJETO 02</span><strong>Clubinho<br />AI</strong><small>Inteligência artificial</small></div>
+                <div class="book-page book-page-left"><div class="project-meta"><span>02</span><span>INTELIGÊNCIA ARTIFICIAL</span></div><div class="project-bot"><img src="public/assets/brand/mascot-wave.png" alt="Ilustração do assistente virtual criado pelo clube" /></div></div>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-cyan" data-project-book>
+            <div class="project-book">
+              <div class="book-spread">
+                <div class="book-page book-page-right"><span class="book-folio">03</span><div class="project-copy"><h3>Portal de Atividades</h3><p>Uma experiência para cada criança aprender, experimentar e avançar no próprio ritmo.</p></div></div>
+              </div>
+              <div class="book-leaf">
+                <div class="book-closed" aria-hidden="true"><span>PROJETO 03</span><strong>Portal de<br />Atividades</strong><small>Produto &amp; design</small></div>
+                <div class="book-page book-page-left"><div class="project-meta"><span>03</span><span>PRODUTO &amp; DESIGN</span></div><div class="project-window" aria-hidden="true"><i></i><div><span></span><b></b><b></b></div></div></div>
+              </div>
+            </div>
+          </article>
+          <article class="project-card project-lime" data-project-book>
+            <div class="project-book">
+              <div class="book-spread">
+                <div class="book-page book-page-right"><span class="book-folio">04</span><div class="project-copy"><h3>Código na Escola</h3><p>Encontros que conectam educação, criatividade e tecnologia dentro da comunidade.</p></div></div>
+              </div>
+              <div class="book-leaf">
+                <div class="book-closed" aria-hidden="true"><span>PROJETO 04</span><strong>Código na<br />Escola</strong><small>Impacto social</small></div>
+                <div class="book-page book-page-left"><div class="project-meta"><span>04</span><span>IMPACTO</span></div><div class="project-rings" aria-hidden="true"><i></i><i></i><strong>ODS<br />+ TEC</strong></div></div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="project-controls page-shell">
+          <div class="project-progress"><span data-project-progress></span></div>
+          <div><button type="button" data-project-prev aria-label="Projeto anterior">←</button><button type="button" data-project-next aria-label="Próximo projeto">→</button></div>
+        </div>
+      </section>
+
+      <section class="team section-standard" id="equipe" aria-labelledby="team-title">
+        <div class="standard-heading reveal">
+          <h2 id="team-title">Cargos e frentes</h2>
+          <p>Áreas diferentes cuidando da mesma comunidade.</p>
+        </div>
+        <div class="team-grid page-shell">
+          <article class="team-card reveal"><div><img src="public/assets/references/reference-13.png" alt="Representante da frente educacional" /><span>01</span></div><h3>Educacional</h3><p>Experiências de aprendizagem</p></article>
+          <article class="team-card reveal reveal-late"><div><img src="public/assets/references/reference-16.png" alt="Representante da frente de marketing" /><span>02</span></div><h3>Marketing</h3><p>Histórias que aproximam</p></article>
+          <article class="team-card reveal"><div><img src="public/assets/references/reference-09.png" alt="Representante da frente financeira" /><span>03</span></div><h3>Financeiro</h3><p>Estrutura para as ideias</p></article>
+          <article class="team-card reveal reveal-late"><div><img src="public/assets/references/reference-17.png" alt="Representante da frente de relações" /><span>04</span></div><h3>Relações</h3><p>Parcerias que expandem</p></article>
+        </div>
+      </section>
+
+      <section class="faq" id="faq" aria-labelledby="faq-title">
+        <div class="standard-heading reveal">
+          <h2 id="faq-title">O que você quer saber?</h2>
+        </div>
+        <div class="faq-list page-shell reveal">
+          <article class="faq-item is-open"><button type="button" aria-expanded="true"><span>Quem pode participar do CodeClub?</span><b aria-hidden="true"></b></button><div class="faq-answer"><p>Qualquer pessoa da comunidade Inteli com vontade de aprender, contribuir e construir em conjunto.</p></div></article>
+          <article class="faq-item"><button type="button" aria-expanded="false"><span>Preciso saber programar?</span><b aria-hidden="true"></b></button><div class="faq-answer"><p>Não. O clube reúne diferentes perfis e níveis de experiência. Curiosidade é o ponto de partida.</p></div></article>
+          <article class="faq-item"><button type="button" aria-expanded="false"><span>Como funcionam os encontros?</span><b aria-hidden="true"></b></button><div class="faq-answer"><p>Alternamos oficinas, sessões de projeto, convidados e momentos para compartilhar o que foi criado.</p></div></article>
+          <article class="faq-item"><button type="button" aria-expanded="false"><span>Posso propor um projeto?</span><b aria-hidden="true"></b></button><div class="faq-answer"><p>Sim. As ideias podem nascer de um problema, uma tecnologia ou uma parceria com impacto real.</p></div></article>
+          <article class="faq-item"><button type="button" aria-expanded="false"><span>Como faço para entrar?</span><b aria-hidden="true"></b></button><div class="faq-answer"><p>Faça seu cadastro e conte quais trilhas mais combinam com você.</p></div></article>
+        </div>
+      </section>
+
+      <section class="contact" id="contato" aria-labelledby="contact-title">
+        <img class="contact-mascot" src="public/assets/brand/mascot-wave.png" alt="Mascote do Code Club convidando para participar" />
+        <h2 id="contact-title" class="reveal">Uma ideia fica melhor quando encontra <em>gente.</em></h2>
+        <p class="reveal">Entre no clube, conheça as frentes e comece a construir com a gente.</p>
+        <div class="contact-actions reveal"><a class="button button-light" href="login.html#signup">Quero participar <span>→</span></a><a class="button button-ghost-light" href="mailto:codeclub@inteli.edu.br">Falar com o clube</a></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand brand-light" href="#inicio"><span class="brand-mark" aria-hidden="true">{i}</span><span>Code Club</span></a>
+      <p>Tecnologia feita em conjunto.</p>
+      <nav aria-label="Rodapé"><a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="login.html">Entrar</a></nav>
+      <span>© 2026 CodeClub · Inteli</span>
+    </footer>
+  </body>
+</html>

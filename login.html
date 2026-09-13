@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Entre ou crie sua conta no CodeClub." />
+    <meta name="theme-color" content="#8c52ff" />
+    <title>Acessar — CodeClub</title>
+    <link rel="icon" href="public/assets/references/reference-08.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body class="auth-body">
+    <main class="auth-shell" data-auth-shell data-auth-mode="login">
+      <section class="auth-visual" aria-label="Composição abstrata 3D do Code Club">
+        <a class="auth-brand" href="index.html" aria-label="Code Club, voltar para o início">
+          <img class="auth-logo" src="public/assets/brand/logo-codeclub-horizontal.png" alt="Code Club" />
+        </a>
+      </section>
+
+      <img class="auth-3d" src="public/assets/auth/auth-sculpture-3d-v3.png" alt="" aria-hidden="true" />
+
+      <section class="auth-panel">
+        <a class="auth-back" href="index.html" aria-label="Voltar para o site"><span aria-hidden="true">←</span></a>
+        <div class="auth-forms">
+          <div class="auth-view is-active" id="auth-login" data-auth-view="login">
+            <div class="auth-form-wrap">
+              <h1>Bem-vindo<br />de volta.</h1>
+              <p class="auth-subtitle">Entre para acompanhar projetos, encontros e trilhas do clube.</p>
+
+              <button class="social-button" type="button" data-demo-google>
+                <img src="public/assets/icons/google.svg" alt="" /> Continuar com Google
+              </button>
+              <div class="auth-divider"><span>OU</span></div>
+
+              <form class="auth-form" data-auth-form data-auth-kind="login">
+                <div class="auth-field">
+                  <label for="login-email">E-mail</label>
+                  <input id="login-email" name="email" type="email" autocomplete="email" placeholder="voce@inteli.edu.br" required />
+                </div>
+                <div class="auth-field">
+                  <label for="login-password">Senha</label>
+                  <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" minlength="8" required />
+                  <button class="password-toggle" type="button" aria-label="Mostrar senha" data-password-toggle><img src="public/assets/icons/eye.svg" alt="" /></button>
+                </div>
+                <div class="auth-options">
+                  <label><input type="checkbox" name="remember" /> Lembrar de mim</label>
+                  <a href="#">Esqueceu a senha?</a>
+                </div>
+                <button class="button auth-submit" type="submit">Entrar <span aria-hidden="true">→</span></button>
+              </form>
+              <p class="auth-switch">Ainda não tem uma conta? <button type="button" data-auth-target="signup" aria-controls="auth-signup">Criar conta</button></p>
+              <p class="auth-message" role="status" data-auth-message>Login demonstrativo concluído.</p>
+            </div>
+          </div>
+
+          <div class="auth-view" id="auth-signup" data-auth-view="signup" aria-hidden="true" inert>
+            <div class="auth-form-wrap">
+              <h1>Crie sua<br />conta.</h1>
+              <p class="auth-subtitle">Cadastre-se para conhecer as frentes e receber os próximos passos.</p>
+
+              <button class="social-button" type="button" data-demo-google>
+                <img src="public/assets/icons/google.svg" alt="" /> Continuar com Google
+              </button>
+              <div class="auth-divider"><span>OU</span></div>
+
+              <form class="auth-form" data-auth-form data-auth-kind="signup">
+                <div class="auth-row">
+                  <div class="auth-field"><label for="signup-name">Nome</label><input id="signup-name" name="name" autocomplete="given-name" placeholder="Seu nome" required /></div>
+                  <div class="auth-field"><label for="signup-lastname">Sobrenome</label><input id="signup-lastname" name="lastname" autocomplete="family-name" placeholder="Seu sobrenome" required /></div>
+                </div>
+                <div class="auth-field"><label for="signup-email">E-mail</label><input id="signup-email" name="email" type="email" autocomplete="email" placeholder="voce@inteli.edu.br" required /></div>
+                <div class="auth-field">
+                  <label for="signup-password">Senha</label>
+                  <input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" minlength="8" required />
+                  <button class="password-toggle" type="button" aria-label="Mostrar senha" data-password-toggle><img src="public/assets/icons/eye.svg" alt="" /></button>
+                </div>
+                <button class="button auth-submit" type="submit">Criar conta <span aria-hidden="true">→</span></button>
+              </form>
+              <p class="auth-switch">Já tem uma conta? <button type="button" data-auth-target="login" aria-controls="auth-login">Entrar</button></p>
+              <p class="auth-message" role="status" data-auth-message>Cadastro demonstrativo concluído.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

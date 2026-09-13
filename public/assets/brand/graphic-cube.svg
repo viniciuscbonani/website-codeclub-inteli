@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 192">
+  <defs><linearGradient id="top" x1="30" y1="0" x2="180" y2="90" gradientUnits="userSpaceOnUse"><stop stop-color="#8c52ff"/><stop offset="1" stop-color="#d26aa9"/></linearGradient><linearGradient id="left" x1="0" y1="60" x2="90" y2="180" gradientUnits="userSpaceOnUse"><stop stop-color="#7c5797"/><stop offset="1" stop-color="#9f0e5d"/></linearGradient><linearGradient id="right" x1="80" y1="100" x2="190" y2="180" gradientUnits="userSpaceOnUse"><stop stop-color="#8c52ff"/><stop offset="1" stop-color="#00bf63"/></linearGradient></defs>
+  <path d="m48 10 139 1 1 113-104-1-36-113Z" fill="url(#top)"/><path d="M48 10 10 54l2 104 72-35-36-113Z" fill="url(#left)"/><path d="m84 123 104 1-67 62-109-28 72-35Z" fill="url(#right)"/>
+</svg>

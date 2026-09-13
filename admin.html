@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Área administrativa do Code Club." />
+    <meta name="theme-color" content="#351f9f" />
+    <title>Admin — Code Club</title>
+    <link rel="icon" href="public/assets/references/reference-08.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <script src="admin.js" defer></script>
+  </head>
+  <body class="admin-body">
+    <a class="skip-link" href="#admin-content">Ir para o conteúdo</a>
+    <div class="admin-shell">
+      <aside class="admin-sidebar" data-admin-sidebar>
+        <div class="admin-sidebar-head">
+          <a href="index.html" aria-label="Code Club, ir para o site"><img src="public/assets/brand/logo-codeclub-horizontal.png" alt="Code Club" /></a>
+          <button class="admin-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-admin-menu-toggle><span></span><span></span></button>
+        </div>
+
+        <nav class="admin-nav" aria-label="Administração">
+          <a href="index.html"><img src="public/assets/admin/home.svg" alt="" />Voltar ao site</a>
+          <button class="is-active" type="button" data-admin-route="dashboard"><img src="public/assets/admin/projects.svg" alt="" />Projetos</button>
+          <button type="button"><img src="public/assets/admin/events.svg" alt="" />Eventos</button>
+          <button type="button"><img src="public/assets/admin/members.svg" alt="" />Membros</button>
+        </nav>
+
+        <div class="admin-profile">
+          <span class="admin-avatar"><img src="public/assets/admin/user.svg" alt="" /></span>
+          <span><strong>Admin CodeClub</strong><small>Administrador</small></span>
+          <button type="button" aria-label="Configurações" data-admin-route="settings"><img src="public/assets/admin/settings.svg" alt="" /></button>
+        </div>
+      </aside>
+
+      <main class="admin-main" id="admin-content">
+        <section class="admin-view is-active" data-admin-view="dashboard">
+          <header class="admin-page-head">
+            <div><span class="admin-eyebrow">Área de admin</span><h1>Projetos</h1><p>Organize as iniciativas que aproximam tecnologia e comunidade.</p></div>
+            <button class="admin-primary" type="button" data-admin-route="new-project"><span>＋</span>Novo projeto</button>
+          </header>
+
+          <div class="admin-toolbar">
+            <label class="admin-search"><img src="public/assets/admin/search.svg" alt="" /><input type="search" placeholder="Buscar projetos" aria-label="Buscar projetos" data-project-search /></label>
+            <span data-project-count>6 projetos</span>
+          </div>
+
+          <div class="admin-table-card">
+            <div class="admin-table-scroll">
+              <table>
+                <thead><tr><th><input type="checkbox" aria-label="Selecionar todos" /></th><th>Projeto</th><th>Frente</th><th>Responsável</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
+                <tbody data-project-list>
+                  <tr><td><input type="checkbox" aria-label="Selecionar CodeClub Hackathon" /></td><td><strong>CodeClub Hackathon</strong><small>Evento para estudantes do ensino médio</small></td><td>Eventos</td><td>Marina Costa</td><td><span class="status status-green">Publicado</span></td><td>Hoje, 14:20</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
+                  <tr><td><input type="checkbox" aria-label="Selecionar Code Kids" /></td><td><strong>Code Kids</strong><small>Aulas de tecnologia para crianças</small></td><td>Educacional</td><td>Ana Clara</td><td><span class="status status-purple">Em edição</span></td><td>Ontem, 18:40</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
+                  <tr><td><input type="checkbox" aria-label="Selecionar Code Teens" /></td><td><strong>Code Teens</strong><small>Aulas práticas para adolescentes</small></td><td>Educacional</td><td>Pedro Lima</td><td><span class="status status-green">Publicado</span></td><td>12 set, 10:15</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
+                  <tr><td><input type="checkbox" aria-label="Selecionar Trilha Web" /></td><td><strong>Trilha de desenvolvimento web</strong><small>Do primeiro HTML ao projeto final</small></td><td>Tecnologia</td><td>Lucas Alves</td><td><span class="status status-yellow">Rascunho</span></td><td>10 set, 16:32</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
+                  <tr><td><input type="checkbox" aria-label="Selecionar Oficina UI" /></td><td><strong>Oficina de UI</strong><small>Design de interfaces para iniciantes</small></td><td>Design</td><td>Beatriz Lima</td><td><span class="status status-purple">Em edição</span></td><td>8 set, 09:05</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
+                  <tr><td><input type="checkbox" aria-label="Selecionar Demo Day" /></td><td><strong>Demo Day</strong><small>Projetos encontrando pessoas</small></td><td>Relações</td><td>Rafael Dias</td><td><span class="status status-green">Publicado</span></td><td>5 set, 11:50</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <nav class="admin-pagination" aria-label="Paginação"><button disabled><img src="public/assets/admin/chevron-left.svg" alt="" /></button><button class="is-current">1</button><button>2</button><button>3</button><button><img src="public/assets/admin/chevron-right.svg" alt="" /></button></nav>
+          </div>
+        </section>
+
+        <section class="admin-view" data-admin-view="settings" hidden>
+          <header class="admin-page-head"><div><span class="admin-eyebrow">Sua conta</span><h1>Configurações</h1><p>Atualize seus dados e preferências do painel.</p></div></header>
+          <div class="settings-layout">
+            <nav class="settings-nav" aria-label="Seções de configuração"><button class="is-active">Editar perfil</button><button>Conta</button><button>Notificações</button><button>Privacidade</button></nav>
+            <div class="settings-content">
+              <section class="admin-card profile-photo-card"><h2>Foto de perfil</h2><div class="profile-photo-row"><span class="profile-photo"><img src="public/assets/admin/user.svg" alt="" /></span><div><button class="admin-secondary" type="button">Enviar foto</button><button class="text-button" type="button">Remover</button></div><p><strong>Requisitos da imagem</strong>JPG ou PNG, mínimo de 400 × 400 px e máximo de 2 MB.</p></div></section>
+              <form class="admin-card settings-form" data-settings-form><h2>Dados do usuário</h2><div class="field-grid"><label>Nome<input name="name" value="Admin" /></label><label>Sobrenome<input name="lastname" value="CodeClub" /></label></div><label>E-mail<input type="email" name="email" value="admin@inteli.edu.br" /></label><label>Cargo<input name="role" value="Administrador" /></label><label>Idioma<select name="language"><option>Português (Brasil)</option><option>English</option></select></label><div class="form-actions"><button class="admin-primary" type="submit">Salvar alterações</button></div></form>
+              <p class="admin-notice" role="status" data-settings-notice>✓ Alterações salvas com sucesso.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" data-admin-view="new-project" hidden>
+          <header class="admin-page-head project-editor-head"><div class="title-icon"><img src="public/assets/admin/pencil.svg" alt="" /></div><div><span class="admin-eyebrow">Projetos</span><h1>Novo projeto</h1><p>Registre uma nova iniciativa do clube.</p></div></header>
+          <form class="project-form" data-project-form>
+            <section class="admin-card"><label class="project-title-field">Título do projeto<input name="title" placeholder="Ex.: Oficina de prototipação" required /></label></section>
+            <section class="admin-card"><h2>Descrição do projeto</h2><div class="editor"><div class="editor-toolbar" aria-label="Formatação"><select aria-label="Estilo do texto"><option>Parágrafo</option><option>Título</option></select><button type="button"><b>B</b></button><button type="button"><i>I</i></button><button type="button"><u>U</u></button><span></span><button type="button">☷</button><button type="button">≡</button><button type="button">↗</button></div><textarea name="description" placeholder="Conte o objetivo, o público e como o projeto vai acontecer..." required></textarea></div></section>
+            <section class="admin-card media-section"><div class="section-heading"><div><h2>Mídia do projeto</h2><p>Adicione uma capa ou material de apoio.</p></div><button class="admin-secondary" type="button" data-open-import><img src="public/assets/admin/upload.svg" alt="" />Inserir mídia</button></div><div class="media-placeholder" data-media-preview><span>◇</span><p>Nenhuma mídia selecionada</p></div></section>
+            <section class="admin-card qr-section"><div><h2>Permitir anexação via QR Code</h2><p>Participantes poderão anexar imagens ou documentos usando um QR Code.</p></div><label class="switch"><input type="checkbox" name="qr" /><span></span><b>Permitir</b></label></section>
+            <div class="project-actions"><button class="admin-secondary" type="button" data-admin-route="dashboard">Cancelar</button><button class="admin-primary" type="submit">＋ Adicionar projeto</button></div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="import-dialog" data-import-dialog>
+      <form method="dialog" class="import-card" data-import-form>
+        <header><span><img src="public/assets/admin/import.svg" alt="" /></span><div><small>Adicionar mídia</small><h2>Importação de imagem</h2></div><button type="submit" value="cancel" aria-label="Fechar">×</button></header>
+        <label class="drop-zone" data-drop-zone><input type="file" accept="image/png,image/jpeg,image/webp" data-file-input /><img src="public/assets/admin/import.svg" alt="" /><strong>Arraste e solte seu arquivo aqui</strong><span>ou clique para procurar no computador</span><b><img src="public/assets/admin/folder.svg" alt="" />Selecionar arquivo</b></label>
+        <p class="import-warning"><img src="public/assets/admin/warning.svg" alt="" />Importante: revise sempre o conteúdo importado.</p>
+        <footer><button class="admin-secondary" type="submit" value="cancel">Cancelar</button><button class="admin-primary" type="button" data-submit-import><img src="public/assets/admin/upload.svg" alt="" />Usar imagem</button></footer>
+      </form>
+    </dialog>
+  </body>
+</html>
