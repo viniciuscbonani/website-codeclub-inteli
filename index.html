@@ -35,35 +35,29 @@
     </header>
 
     <main id="conteudo">
-      <section class="event-hero" id="inicio" data-event-carousel aria-labelledby="event-title">
-        <div class="event-slides" aria-live="polite">
-          <figure class="event-slide is-active" data-event-slide>
+      <section class="event-hero" id="inicio" data-event-carousel aria-roledescription="carrossel" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="sr-only">Code Club: tecnologia e programação para crianças, adolescentes e jovens</h1>
+        <div class="hero-track" data-hero-track aria-live="polite">
+          <article class="hero-slide is-active" data-hero-slide aria-roledescription="slide" aria-label="1 de 1">
             <img src="public/assets/events/event-01.png" alt="Estudantes colaborando no CodeClub Hackathon" />
-          </figure>
-          <figure class="event-slide" data-event-slide>
-            <img src="public/assets/events/event-02.png" alt="Crianças participando de uma aula do Code Kids" />
-          </figure>
-          <figure class="event-slide" data-event-slide>
-            <img src="public/assets/events/event-03.png" alt="Adolescentes participando de uma aula do Code Teens" />
-          </figure>
+            <div class="hero-slide-copy">
+              <span class="hero-kind">Evento</span>
+              <h2>CodeClub<br /><em>Hackathon</em></h2>
+              <p>Um hackathon para jovens do ensino médio transformarem ideias em protótipos.</p>
+              <div class="event-actions">
+                <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
+                <a class="button button-ghost-light" href="#sobre">Saiba mais</a>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="event-shade" aria-hidden="true"></div>
-
-        <div class="event-hero-content">
-          <h1 id="event-title" class="reveal"><span data-event-title>CodeClub<br /><em>Hackathon</em></span></h1>
-          <p class="event-lead reveal" data-event-description>Um hackathon para jovens do ensino médio transformarem ideias em protótipos.</p>
-          <div class="event-actions reveal">
-            <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
-            <a class="button button-ghost-light" href="#sobre">Saiba mais</a>
-          </div>
-        </div>
-        <img class="event-mascot" src="public/assets/brand/mascot-wave.png" alt="Mascote robô do Code Club acenando" />
+        <img class="event-mascot" src="public/assets/brand/mascot-wave.png" alt="" aria-hidden="true" />
 
         <div class="event-controls">
-          <div class="event-count"><strong data-event-current>01</strong><span>/ 03</span></div>
+          <div class="event-count"><strong data-event-current>01</strong><span data-event-total>/ 01</span></div>
           <div class="event-progress" aria-hidden="true"><span data-event-progress></span></div>
-          <button type="button" aria-label="Imagem anterior" data-event-prev>←</button>
-          <button type="button" aria-label="Próxima imagem" data-event-next>→</button>
+          <button type="button" aria-label="Slide anterior" data-event-prev>←</button>
+          <button type="button" aria-label="Próximo slide" data-event-next>→</button>
         </div>
       </section>
 

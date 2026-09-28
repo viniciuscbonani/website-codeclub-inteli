@@ -11,8 +11,10 @@ const CC = (() => {
     ],
     events: [
       { id: "hackathon", title: "CodeClub Hackathon", description: "Um hackathon para jovens do ensino médio transformarem ideias em protótipos.", image: "public/assets/events/event-01.png", date: "", updatedAt: "2026-09-20T14:20:00" },
-      { id: "code-kids", title: "Code Kids", description: "Aulas divertidas para crianças descobrirem tecnologia criando e brincando.", image: "public/assets/events/event-02.png", date: "", updatedAt: "2026-09-19T18:40:00" },
-      { id: "code-teens", title: "Code Teens", description: "Aulas para adolescentes aprenderem, experimentarem e construírem com tecnologia.", image: "public/assets/events/event-03.png", date: "", updatedAt: "2026-09-12T10:15:00" },
+      { id: "code-kids", title: "Code Kids", description: "Aulas práticas para crianças descobrirem tecnologia e programação criando.", image: "public/assets/programs/code-kids.jpg", date: "", updatedAt: "2026-09-19T18:40:00" },
+      { id: "code-teens", title: "Code Teens", description: "Tecnologia e programação para adolescentes aprenderem construindo com a gente.", image: "public/assets/programs/code-teens.jpg", date: "", updatedAt: "2026-09-12T10:15:00" },
+      { id: "code-start-educafro", title: "Code Start com Educafro", description: "Tecnologia, programação e negócios para jovens das turmas Mentes em Expansão e Educafro.", image: "public/assets/events/code-start-educafro.jpg", date: "", updatedAt: "2026-09-08T09:30:00" },
+      { id: "natal-ebenezer", title: "Ação de Natal", description: "Uma tarde de atividades com as crianças do Instituto Ebenézer.", image: "public/assets/events/natal-ebenezer.jpg", date: "", updatedAt: "2026-09-02T16:00:00" },
     ],
     members: [
       { id: "m1", name: "Ana Clara", email: "ana.clara@inteli.edu.br", front: "Educacional", role: "Líder", photo: "", updatedAt: "2026-09-18T10:00:00" },

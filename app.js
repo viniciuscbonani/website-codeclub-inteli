@@ -35,24 +35,46 @@ if (reduceMotion || !("IntersectionObserver" in window)) {
 
 const esc = (value) => (typeof CC === "undefined" ? String(value ?? "") : CC.escape(value));
 
-// Carrossel do topo: usa os eventos cadastrados no admin (data.js).
-const eventData = typeof CC === "undefined" ? [] : CC.load("events");
-const eventSlidesRoot = document.querySelector(".event-slides");
-if (eventSlidesRoot && eventData.length) {
-  eventSlidesRoot.innerHTML = eventData
-    .map((event, index) => `<figure class="event-slide${index === 0 ? " is-active" : ""}" data-event-slide><img src="${esc(event.image)}" alt="${esc(event.title)}" /></figure>`)
+// Carrossel do topo: eventos + projetos marcados para o carrossel (data.js).
+const titleMarkup = (title) => {
+  const words = String(title).trim().split(/\s+/);
+  return words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br /><em>${esc(words.at(-1))}</em>` : `<em>${esc(words[0])}</em>`;
+};
+const heroItems = typeof CC === "undefined"
+  ? []
+  : [
+      ...CC.load("events").map((event) => ({ kind: "Evento", title: event.title, description: event.description, image: event.image })),
+      ...CC.load("projects")
+        .filter((project) => project.status === "Publicado" && project.showInHero && project.cover)
+        .map((project) => ({ kind: "Projeto", title: project.title, description: project.description, image: project.cover, href: "#projetos" })),
+    ];
+const heroTrack = document.querySelector("[data-hero-track]");
+if (heroTrack && heroItems.length) {
+  heroTrack.innerHTML = heroItems
+    .map(
+      (item, index) => `<article class="hero-slide" data-hero-slide aria-roledescription="slide" aria-label="${index + 1} de ${heroItems.length}: ${esc(item.title)}">
+        <img src="${esc(item.image)}" alt="" ${index > 1 ? 'loading="lazy"' : ""} />
+        <div class="hero-slide-copy">
+          <span class="hero-kind">${item.kind}</span>
+          <h2>${titleMarkup(item.title)}</h2>
+          <p>${esc(item.description)}</p>
+          <div class="event-actions">
+            <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
+            <a class="button button-ghost-light" href="${item.href || "#sobre"}">Saiba mais</a>
+          </div>
+        </div>
+        <span class="hero-peek" aria-hidden="true"><small>Próximo</small>${esc(item.title)}</span>
+      </article>`,
+    )
     .join("");
-  const total = document.querySelector(".event-count span");
-  if (total) total.textContent = `/ ${String(eventData.length).padStart(2, "0")}`;
 }
 
 const carousel = document.querySelector("[data-event-carousel]");
-const eventSlides = [...document.querySelectorAll("[data-event-slide]")];
+const eventSlides = [...document.querySelectorAll("[data-hero-slide]")];
 const eventCurrent = document.querySelector("[data-event-current]");
+const eventTotal = document.querySelector("[data-event-total]");
 const eventProgress = document.querySelector("[data-event-progress]");
-const eventTitle = document.querySelector("[data-event-title]");
-const eventDescription = document.querySelector("[data-event-description]");
-const eventDetails = eventData;
+if (eventTotal) eventTotal.textContent = `/ ${String(eventSlides.length).padStart(2, "0")}`;
 let eventIndex = 0;
 let eventTimer;
 
@@ -63,17 +85,20 @@ const animateEventProgress = () => {
   eventProgress.classList.add("is-running");
 };
 
+// O ativo fica à esquerda, o próximo aparece em seguida e o anterior encolhe para fora pela esquerda.
 const showEvent = (nextIndex, restart = true) => {
   if (!eventSlides.length) return;
-  eventIndex = (nextIndex + eventSlides.length) % eventSlides.length;
-  eventSlides.forEach((slide, index) => slide.classList.toggle("is-active", index === eventIndex));
+  const total = eventSlides.length;
+  eventIndex = (nextIndex + total) % total;
+  eventSlides.forEach((slide, index) => {
+    const position = (index - eventIndex + total) % total;
+    slide.style.order = position === total - 1 && total > 2 ? -1 : position;
+    slide.classList.toggle("is-active", position === 0);
+    slide.classList.toggle("is-next", position === 1);
+    slide.toggleAttribute("inert", position !== 0);
+    slide.setAttribute("aria-hidden", String(position !== 0));
+  });
   if (eventCurrent) eventCurrent.textContent = String(eventIndex + 1).padStart(2, "0");
-  const detail = eventDetails[eventIndex];
-  if (detail && eventTitle) {
-    const words = detail.title.trim().split(/\s+/);
-    eventTitle.innerHTML = words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br /><em>${esc(words.at(-1))}</em>` : `<em>${esc(words[0])}</em>`;
-  }
-  if (detail && eventDescription) eventDescription.textContent = detail.description;
   animateEventProgress();
   if (restart) startEventTimer();
 };
@@ -86,6 +111,21 @@ const startEventTimer = () => {
 
 document.querySelector("[data-event-prev]")?.addEventListener("click", () => showEvent(eventIndex - 1));
 document.querySelector("[data-event-next]")?.addEventListener("click", () => showEvent(eventIndex + 1));
+heroTrack?.addEventListener("click", (event) => {
+  if (event.target.closest(".hero-slide.is-next")) showEvent(eventIndex + 1);
+});
+carousel?.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight") showEvent(eventIndex + 1);
+  if (event.key === "ArrowLeft") showEvent(eventIndex - 1);
+});
+let swipeStart = null;
+heroTrack?.addEventListener("pointerdown", (event) => { swipeStart = event.clientX; });
+heroTrack?.addEventListener("pointerup", (event) => {
+  if (swipeStart === null) return;
+  const delta = event.clientX - swipeStart;
+  swipeStart = null;
+  if (Math.abs(delta) > 50) showEvent(eventIndex + (delta < 0 ? 1 : -1));
+});
 showEvent(0);
 
 const story = document.querySelector("[data-story]");
