@@ -4,10 +4,10 @@ const CC = (() => {
 
   const defaults = {
     projects: [
-      { id: "lab-aberto", title: "Lab Aberto", category: "Desenvolvimento", status: "Publicado", description: "Oficinas que aproximam crianças de novas tecnologias por meio de experiências práticas.", cover: "public/assets/events/event-03.png", gallery: [], visual: "photo", updatedAt: "2026-09-12T10:15:00" },
-      { id: "clubinho-ai", title: "Clubinho AI", category: "Inteligência artificial", status: "Publicado", description: "Um assistente amigável para orientar atividades, projetos e descobertas dentro do clube.", cover: "", gallery: [], visual: "bot", updatedAt: "2026-09-10T16:32:00" },
-      { id: "portal-atividades", title: "Portal de Atividades", category: "Produto & design", status: "Em edição", description: "Uma experiência para cada criança aprender, experimentar e avançar no próprio ritmo.", cover: "", gallery: [], visual: "window", updatedAt: "2026-09-08T09:05:00" },
-      { id: "codigo-escola", title: "Código na Escola", category: "Impacto social", status: "Publicado", description: "Encontros que conectam educação, criatividade e tecnologia dentro da comunidade.", cover: "", gallery: [], visual: "rings", updatedAt: "2026-09-05T11:50:00" },
+      { id: "lab-aberto", title: "Lab Aberto", category: "Desenvolvimento", status: "Publicado", description: "Oficinas que aproximam crianças de novas tecnologias por meio de experiências práticas.", cover: "public/assets/events/event-03.png", gallery: [], showInProjects: true, showInHero: false, visual: "photo", updatedAt: "2026-09-12T10:15:00" },
+      { id: "clubinho-ai", title: "Clubinho AI", category: "Inteligência artificial", status: "Publicado", description: "Um assistente amigável para orientar atividades, projetos e descobertas dentro do clube.", cover: "", gallery: [], showInProjects: true, showInHero: false, visual: "bot", updatedAt: "2026-09-10T16:32:00" },
+      { id: "portal-atividades", title: "Portal de Atividades", category: "Produto & design", status: "Em edição", description: "Uma experiência para cada criança aprender, experimentar e avançar no próprio ritmo.", cover: "", gallery: [], showInProjects: true, showInHero: false, visual: "window", updatedAt: "2026-09-08T09:05:00" },
+      { id: "codigo-escola", title: "Código na Escola", category: "Impacto social", status: "Publicado", description: "Encontros que conectam educação, criatividade e tecnologia dentro da comunidade.", cover: "", gallery: [], showInProjects: true, showInHero: false, visual: "rings", updatedAt: "2026-09-05T11:50:00" },
     ],
     events: [
       { id: "hackathon", title: "CodeClub Hackathon", description: "Um hackathon para jovens do ensino médio transformarem ideias em protótipos.", image: "public/assets/events/event-01.png", date: "", updatedAt: "2026-09-20T14:20:00" },

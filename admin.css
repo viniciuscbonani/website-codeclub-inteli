@@ -56,3 +56,8 @@ label.admin-secondary{position:relative}
 
 @media(max-width:900px){.admin-toolbar{flex-wrap:wrap}.front-filter{order:3;width:100%}}
 @media(max-width:620px){.member-form-card{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}.reset-card{align-items:stretch;flex-direction:column}.admin-toast{right:16px;bottom:16px;left:16px;max-width:none}.event-admin-grid{grid-template-columns:1fr}}
+
+.display-section{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:center;gap:24px}.display-section p{margin-top:6px;color:rgba(53,31,159,.58);font-size:13px;line-height:1.5}
+.display-options{display:flex;flex-direction:column;gap:12px}.display-options .switch{position:relative;padding:14px 16px;border:1px solid rgba(53,31,159,.14);border-radius:16px;background:#faf8ff;transition:border-color .2s,background .2s}.display-options .switch:has(input:checked){border-color:var(--green);background:#f0fff6}.display-options .switch:has(input:focus-visible){outline:3px solid var(--green);outline-offset:2px}.display-options .switch span{flex:none}.display-options .switch b{display:flex;flex-direction:column;font-size:14px}.display-options .switch small{margin-top:2px;color:rgba(53,31,159,.58);font-size:12px;font-weight:400}
+.display-tags{display:flex;flex-wrap:wrap;gap:5px}
+@media(max-width:620px){.display-section{grid-template-columns:1fr}}

@@ -49,7 +49,7 @@
           <div class="admin-table-card">
             <div class="admin-table-scroll">
               <table>
-                <thead><tr><th>Projeto</th><th>Categoria</th><th>Imagens</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
+                <thead><tr><th>Projeto</th><th>Categoria</th><th>Exibição</th><th>Imagens</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
                 <tbody data-list="projects"></tbody>
               </table>
             </div>
@@ -71,10 +71,18 @@
             <section class="admin-card media-section">
               <div class="section-heading"><div><h2>Foto de capa</h2><p>Aparece na página esquerda do livro do projeto.</p></div><button class="admin-secondary" type="button" data-open-import="cover"><img src="public/assets/admin/upload.svg" alt="" />Escolher capa</button></div>
               <div class="media-placeholder" data-image-preview="cover"><span>◇</span><p>Nenhuma capa selecionada</p></div>
+              <small class="field-error field-error-block" data-image-error>Para aparecer no carrossel inicial, o projeto precisa de uma capa.</small>
             </section>
             <section class="admin-card media-section">
               <div class="section-heading"><div><h2>Imagens do projeto</h2><p>Até 4 imagens, mostradas como miniaturas ao lado da descrição.</p></div><label class="admin-secondary"><img src="public/assets/admin/upload.svg" alt="" />Adicionar imagens<input class="sr-only" type="file" accept="image/png,image/jpeg,image/webp" multiple data-gallery-input /></label></div>
               <div class="gallery-grid" data-gallery-preview></div>
+            </section>
+            <section class="admin-card display-section">
+              <div><h2>Onde exibir</h2><p>Escolha em quais partes da landing o projeto aparece quando estiver publicado.</p></div>
+              <div class="display-options">
+                <label class="switch"><input type="checkbox" name="showInHero" /><span></span><b>Carrossel inicial<small>Slide em destaque no topo, usando a capa</small></b></label>
+                <label class="switch"><input type="checkbox" name="showInProjects" checked /><span></span><b>Coisas que já saíram do papel<small>Livro na seção de projetos</small></b></label>
+              </div>
             </section>
             <div class="project-actions"><button class="admin-secondary" type="button" data-admin-route="dashboard">Cancelar</button><button class="admin-primary" type="submit" data-submit-label="projects">＋ Adicionar projeto</button></div>
           </form>

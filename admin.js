@@ -97,7 +97,7 @@ const renderers = {
       .map((project) => {
         const thumb = project.cover ? `<img src="${esc(project.cover)}" alt="" />` : `<span>{i}</span>`;
         const images = (project.cover ? 1 : 0) + (project.gallery?.length || 0);
-        return `<tr><td><div class="row-title"><span class="row-thumb">${thumb}</span><span><strong>${esc(project.title)}</strong><small>${esc(project.description)}</small></span></div></td><td>${esc(project.category)}</td><td>${images || "—"}</td><td><span class="status ${statusClass[project.status] || "status-purple"}">${esc(project.status)}</span></td><td>${formatDate(project.updatedAt)}</td><td>${rowActions("projects", project)}</td></tr>`;
+        return `<tr><td><div class="row-title"><span class="row-thumb">${thumb}</span><span><strong>${esc(project.title)}</strong><small>${esc(project.description)}</small></span></div></td><td>${esc(project.category)}</td><td><div class="display-tags">${project.showInHero ? `<span class="front-tag" data-front="Marketing">Carrossel</span>` : ""}${project.showInProjects !== false ? `<span class="front-tag" data-front="Relações">Projetos</span>` : ""}${!project.showInHero && project.showInProjects === false ? "—" : ""}</div></td><td>${images || "—"}</td><td><span class="status ${statusClass[project.status] || "status-purple"}">${esc(project.status)}</span></td><td>${formatDate(project.updatedAt)}</td><td>${rowActions("projects", project)}</td></tr>`;
       })
       .join(""),
   events: (items) =>
@@ -232,9 +232,13 @@ function openForm(key, id = null) {
   form.querySelector("[data-image-error]")?.classList.remove("is-visible");
   if (item) {
     [...form.elements].forEach((field) => {
+      if (field.type === "checkbox") return;
       if (field.name && item[field.name] !== undefined) field.value = item[field.name];
     });
   }
+  // Projetos antigos sem esses campos continuam aparecendo na seção de projetos.
+  if (form.elements.showInHero) form.elements.showInHero.checked = Boolean(item?.showInHero);
+  if (form.elements.showInProjects) form.elements.showInProjects.checked = item ? item.showInProjects !== false : true;
   draft.image = item?.[config.image] || "";
   draft.gallery = [...(item?.gallery || [])];
   setImagePreview(config.image, draft.image);
@@ -248,6 +252,7 @@ function openForm(key, id = null) {
 document.querySelectorAll("[data-entity-form]").forEach((form) => {
   form.addEventListener("input", (event) => {
     event.target.closest(".is-invalid")?.classList.remove("is-invalid");
+    if (event.target.name === "showInHero" && !event.target.checked) form.querySelector("[data-image-error]")?.classList.remove("is-visible");
     if (event.target.matches("textarea")) updateCharCounts(form);
   });
 
@@ -262,7 +267,7 @@ document.querySelectorAll("[data-entity-form]").forEach((form) => {
       field.closest("label")?.classList.toggle("is-invalid", !valid);
       if (!valid && !firstInvalid) firstInvalid = field;
     });
-    const needsImage = key === "events" && !draft.image;
+    const needsImage = !draft.image && (key === "events" || (key === "projects" && form.elements.showInHero.checked));
     form.querySelector("[data-image-error]")?.classList.toggle("is-visible", needsImage);
     if (firstInvalid || needsImage) {
       (firstInvalid || form.querySelector("[data-open-import]"))?.focus();
@@ -274,6 +279,8 @@ document.querySelectorAll("[data-entity-form]").forEach((form) => {
     const item = { ...previous, ...values, [config.image]: draft.image, id: previous?.id || CC.id(), updatedAt: new Date().toISOString() };
     if (key === "projects") {
       item.gallery = draft.gallery;
+      item.showInHero = form.elements.showInHero.checked;
+      item.showInProjects = form.elements.showInProjects.checked;
       // Projeto com capa própria deixa de usar a ilustração padrão.
       if (draft.image) item.visual = "photo";
     }
@@ -363,7 +370,7 @@ document.querySelector("[data-submit-import]")?.addEventListener("click", async 
   if (!selectedFile) { fileInput?.click(); return; }
   draft.image = await CC.readImage(selectedFile, importSlot === "photo" ? 400 : 1200);
   setImagePreview(importSlot, draft.image);
-  document.querySelector("[data-image-error]")?.classList.remove("is-visible");
+  document.querySelectorAll("[data-image-error]").forEach((error) => error.classList.remove("is-visible"));
   importDialog?.close();
 });
 
