@@ -185,18 +185,24 @@ const projectVisual = (project) => {
   if (project.visual === "bot") return `<div class="project-bot"><img src="public/assets/brand/mascot-wave.png" alt="Ilustração do assistente virtual criado pelo clube" /></div>`;
   if (project.visual === "window") return `<div class="project-window" aria-hidden="true"><i></i><div><span></span><b></b><b></b></div></div>`;
   if (project.visual === "rings") return `<div class="project-rings" aria-hidden="true"><i></i><i></i><strong>ODS<br />+ TEC</strong></div>`;
-  if (project.cover) return `<div class="project-photo"><img src="${esc(project.cover)}" alt="Capa do projeto ${esc(project.title)}" /></div>`;
+  const images = [project.cover, ...(project.gallery || [])].filter(Boolean);
+  if (images.length) {
+    const slides = images.map((src, index) => `<img class="${index === 0 ? "is-active" : ""}" src="${esc(src)}" alt="Foto ${index + 1} do projeto ${esc(project.title)}" loading="lazy" />`).join("");
+    const dots = images.length > 1
+      ? `<div class="photo-dots">${images.map((_, index) => `<button type="button" class="${index === 0 ? "is-active" : ""}" data-photo-dot="${index}" aria-label="Mostrar foto ${index + 1}"></button>`).join("")}</div><span class="photo-count"><b data-photo-current>1</b>/${images.length}</span>`
+      : "";
+    return `<div class="project-photo project-photo-carousel" data-photo-carousel>${slides}${dots}</div>`;
+  }
   return `<div class="project-photo project-photo-empty" aria-hidden="true"><strong>{i}</strong></div>`;
 };
 const projectBook = (project, index) => {
   const number = String(index + 1).padStart(2, "0");
   const words = project.title.trim().split(/\s+/);
   const closedTitle = words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br />${esc(words.at(-1))}` : esc(project.title);
-  const gallery = (project.gallery || []).slice(0, 4).map((src) => `<img src="${esc(src)}" alt="Imagem do projeto ${esc(project.title)}" loading="lazy" />`).join("");
   return `<article class="project-card ${projectColors[index % projectColors.length]}" data-project-book>
     <div class="project-book">
       <div class="book-spread">
-        <div class="book-page book-page-right"><span class="book-folio">${number}</span><div class="project-copy"><h3>${esc(project.title)}</h3><p>${esc(project.description)}</p>${gallery ? `<div class="project-gallery">${gallery}</div>` : ""}</div></div>
+        <div class="book-page book-page-right"><span class="book-folio">${number}</span><div class="project-copy"><h3>${esc(project.title)}</h3><p>${esc(project.description)}</p></div></div>
       </div>
       <div class="book-leaf">
         <div class="book-closed" aria-hidden="true"><span>PROJETO ${number}</span><strong>${closedTitle}</strong><small>${esc(project.category)}</small></div>
@@ -205,7 +211,7 @@ const projectBook = (project, index) => {
     </div>
   </article>`;
 };
-const publishedProjects = typeof CC === "undefined" ? [] : CC.load("projects").filter((project) => project.status === "Publicado");
+const publishedProjects = typeof CC === "undefined" ? [] : CC.load("projects").filter((project) => project.status === "Publicado" && project.showInProjects !== false);
 const projectSliderRoot = document.querySelector("[data-project-slider]");
 if (projectSliderRoot && publishedProjects.length) projectSliderRoot.innerHTML = publishedProjects.map(projectBook).join("");
 
@@ -246,6 +252,32 @@ const updateProjectProgress = () => {
   const progress = max <= 0 ? 100 : 25 + (projectSlider.scrollLeft / max) * 75;
   projectProgress.style.width = `${clamp(progress, 25, 100)}%`;
 };
+
+// Fotos dentro do livro aberto trocam sozinhas; o hover pausa e os pontos escolhem a foto.
+const showProjectPhoto = (carouselElement, index) => {
+  const photos = [...carouselElement.querySelectorAll(":scope > img")];
+  const next = (index + photos.length) % photos.length;
+  photos.forEach((photo, photoIndex) => photo.classList.toggle("is-active", photoIndex === next));
+  carouselElement.querySelectorAll("[data-photo-dot]").forEach((dot, dotIndex) => dot.classList.toggle("is-active", dotIndex === next));
+  const current = carouselElement.querySelector("[data-photo-current]");
+  if (current) current.textContent = next + 1;
+  carouselElement.dataset.index = next;
+};
+document.querySelectorAll("[data-photo-carousel]").forEach((carouselElement) => {
+  carouselElement.addEventListener("click", (event) => {
+    const dot = event.target.closest("[data-photo-dot]");
+    if (dot) showProjectPhoto(carouselElement, Number(dot.dataset.photoDot));
+  });
+  carouselElement.addEventListener("pointerenter", () => { carouselElement.dataset.paused = "true"; });
+  carouselElement.addEventListener("pointerleave", () => { delete carouselElement.dataset.paused; });
+});
+if (!reduceMotion) {
+  window.setInterval(() => {
+    const active = document.querySelector(".project-card.is-book-open [data-photo-carousel]");
+    if (!active || active.dataset.paused || active.querySelectorAll(":scope > img").length < 2) return;
+    showProjectPhoto(active, Number(active.dataset.index || 0) + 1);
+  }, 3500);
+}
 
 document.querySelector("[data-project-prev]")?.addEventListener("click", () => projectSlider?.scrollBy({ left: -projectStep(), behavior: "smooth" }));
 document.querySelector("[data-project-next]")?.addEventListener("click", () => projectSlider?.scrollBy({ left: projectStep(), behavior: "smooth" }));
