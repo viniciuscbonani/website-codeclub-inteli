@@ -187,6 +187,16 @@ window.addEventListener("resize", updateProjectBooks, { passive: true });
 updateProjectProgress();
 updateProjectBooks();
 
+// Frentes: em telas de toque, o toque abre e fecha a descrição.
+document.querySelectorAll("[data-team-card]").forEach((card) => {
+  card.addEventListener("click", () => {
+    if (window.matchMedia("(hover: hover)").matches) return;
+    const open = !card.classList.contains("is-open");
+    document.querySelectorAll("[data-team-card].is-open").forEach((other) => other.classList.remove("is-open"));
+    card.classList.toggle("is-open", open);
+  });
+});
+
 document.querySelectorAll(".faq-item > button").forEach((button) => {
   button.addEventListener("click", () => {
     const item = button.closest(".faq-item");
