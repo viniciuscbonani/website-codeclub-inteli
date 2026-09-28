@@ -538,3 +538,11 @@
 @media(max-width:790px){.team-card-desc{padding:16px 14px;font-size:12px}}
 @media(max-width:520px){.team-card-desc{padding:24px 22px;font-size:15px}}
 
+/* Projetos vindos do admin: capa vazia e galeria */
+.project-photo-empty{display:grid;place-items:center;background:var(--gradient)}
+.project-photo-empty strong{color:white;font-family:var(--display);font-size:64px}
+.project-gallery{display:flex;gap:8px;margin-top:18px}
+.project-gallery img{width:62px;height:62px;border:3px solid white;border-radius:16px;object-fit:cover;box-shadow:4px 5px 0 rgba(53,31,159,.12)}
+.project-gallery img:nth-child(odd){transform:rotate(-3deg)}
+.project-gallery img:nth-child(even){transform:rotate(3deg)}
+@media(max-width:790px){.project-gallery img{width:44px;height:44px;border-radius:11px}}

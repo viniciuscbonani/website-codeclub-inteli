@@ -33,26 +33,26 @@ if (reduceMotion || !("IntersectionObserver" in window)) {
   reveals.forEach((element) => observer.observe(element));
 }
 
+const esc = (value) => (typeof CC === "undefined" ? String(value ?? "") : CC.escape(value));
+
+// Carrossel do topo: usa os eventos cadastrados no admin (data.js).
+const eventData = typeof CC === "undefined" ? [] : CC.load("events");
+const eventSlidesRoot = document.querySelector(".event-slides");
+if (eventSlidesRoot && eventData.length) {
+  eventSlidesRoot.innerHTML = eventData
+    .map((event, index) => `<figure class="event-slide${index === 0 ? " is-active" : ""}" data-event-slide><img src="${esc(event.image)}" alt="${esc(event.title)}" /></figure>`)
+    .join("");
+  const total = document.querySelector(".event-count span");
+  if (total) total.textContent = `/ ${String(eventData.length).padStart(2, "0")}`;
+}
+
 const carousel = document.querySelector("[data-event-carousel]");
 const eventSlides = [...document.querySelectorAll("[data-event-slide]")];
 const eventCurrent = document.querySelector("[data-event-current]");
 const eventProgress = document.querySelector("[data-event-progress]");
 const eventTitle = document.querySelector("[data-event-title]");
 const eventDescription = document.querySelector("[data-event-description]");
-const eventDetails = [
-  {
-    title: "CodeClub Hackathon",
-    description: "Um hackathon para jovens do ensino médio transformarem ideias em protótipos.",
-  },
-  {
-    title: "Code Kids",
-    description: "Aulas divertidas para crianças descobrirem tecnologia criando e brincando.",
-  },
-  {
-    title: "Code Teens",
-    description: "Aulas para adolescentes aprenderem, experimentarem e construírem com tecnologia.",
-  },
-];
+const eventDetails = eventData;
 let eventIndex = 0;
 let eventTimer;
 
@@ -70,8 +70,8 @@ const showEvent = (nextIndex, restart = true) => {
   if (eventCurrent) eventCurrent.textContent = String(eventIndex + 1).padStart(2, "0");
   const detail = eventDetails[eventIndex];
   if (detail && eventTitle) {
-    const words = detail.title.split(" ");
-    eventTitle.innerHTML = `${words.slice(0, -1).join(" ")}<br /><em>${words.at(-1)}</em>`;
+    const words = detail.title.trim().split(/\s+/);
+    eventTitle.innerHTML = words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br /><em>${esc(words.at(-1))}</em>` : `<em>${esc(words[0])}</em>`;
   }
   if (detail && eventDescription) eventDescription.textContent = detail.description;
   animateEventProgress();
@@ -138,6 +138,36 @@ const requestStoryUpdate = () => {
 window.addEventListener("scroll", requestStoryUpdate, { passive: true });
 window.addEventListener("resize", requestStoryUpdate, { passive: true });
 requestStoryUpdate();
+
+// Livros de projetos: usa os projetos publicados no admin (data.js).
+const projectColors = ["project-blue", "project-coral", "project-cyan", "project-lime"];
+const projectVisual = (project) => {
+  if (project.visual === "bot") return `<div class="project-bot"><img src="public/assets/brand/mascot-wave.png" alt="Ilustração do assistente virtual criado pelo clube" /></div>`;
+  if (project.visual === "window") return `<div class="project-window" aria-hidden="true"><i></i><div><span></span><b></b><b></b></div></div>`;
+  if (project.visual === "rings") return `<div class="project-rings" aria-hidden="true"><i></i><i></i><strong>ODS<br />+ TEC</strong></div>`;
+  if (project.cover) return `<div class="project-photo"><img src="${esc(project.cover)}" alt="Capa do projeto ${esc(project.title)}" /></div>`;
+  return `<div class="project-photo project-photo-empty" aria-hidden="true"><strong>{i}</strong></div>`;
+};
+const projectBook = (project, index) => {
+  const number = String(index + 1).padStart(2, "0");
+  const words = project.title.trim().split(/\s+/);
+  const closedTitle = words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br />${esc(words.at(-1))}` : esc(project.title);
+  const gallery = (project.gallery || []).slice(0, 4).map((src) => `<img src="${esc(src)}" alt="Imagem do projeto ${esc(project.title)}" loading="lazy" />`).join("");
+  return `<article class="project-card ${projectColors[index % projectColors.length]}" data-project-book>
+    <div class="project-book">
+      <div class="book-spread">
+        <div class="book-page book-page-right"><span class="book-folio">${number}</span><div class="project-copy"><h3>${esc(project.title)}</h3><p>${esc(project.description)}</p>${gallery ? `<div class="project-gallery">${gallery}</div>` : ""}</div></div>
+      </div>
+      <div class="book-leaf">
+        <div class="book-closed" aria-hidden="true"><span>PROJETO ${number}</span><strong>${closedTitle}</strong><small>${esc(project.category)}</small></div>
+        <div class="book-page book-page-left"><div class="project-meta"><span>${number}</span><span>${esc(project.category).toUpperCase()}</span></div>${projectVisual(project)}</div>
+      </div>
+    </div>
+  </article>`;
+};
+const publishedProjects = typeof CC === "undefined" ? [] : CC.load("projects").filter((project) => project.status === "Publicado");
+const projectSliderRoot = document.querySelector("[data-project-slider]");
+if (projectSliderRoot && publishedProjects.length) projectSliderRoot.innerHTML = publishedProjects.map(projectBook).join("");
 
 const projectSlider = document.querySelector("[data-project-slider]");
 const projectProgress = document.querySelector("[data-project-progress]");
