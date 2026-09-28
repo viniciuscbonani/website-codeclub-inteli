@@ -652,3 +652,5 @@
 .story-heading{transition:none;will-change:transform,opacity}
 .story-progress span{height:100%;transform:scaleY(0);transform-origin:top;will-change:transform}
 .story-photo,.story-card{backface-visibility:hidden}
+.story-heading p{max-width:720px;margin-top:22px;font-size:clamp(18px,1.6vw,22px);font-weight:500;line-height:1.5}
+@media(max-width:790px){.story-heading p{max-width:520px;font-size:15px}}
