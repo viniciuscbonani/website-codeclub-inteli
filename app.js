@@ -33,26 +33,48 @@ if (reduceMotion || !("IntersectionObserver" in window)) {
   reveals.forEach((element) => observer.observe(element));
 }
 
+const esc = (value) => (typeof CC === "undefined" ? String(value ?? "") : CC.escape(value));
+
+// Carrossel do topo: eventos + projetos marcados para o carrossel (data.js).
+const titleMarkup = (title) => {
+  const words = String(title).trim().split(/\s+/);
+  return words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br /><em>${esc(words.at(-1))}</em>` : `<em>${esc(words[0])}</em>`;
+};
+const heroItems = typeof CC === "undefined"
+  ? []
+  : [
+      ...CC.load("events").map((event) => ({ kind: "Evento", title: event.title, description: event.description, image: event.image })),
+      ...CC.load("projects")
+        .filter((project) => project.status === "Publicado" && project.showInHero && project.cover)
+        .map((project) => ({ kind: "Projeto", title: project.title, description: project.description, image: project.cover, href: "#projetos" })),
+    ];
+const heroTrack = document.querySelector("[data-hero-track]");
+if (heroTrack && heroItems.length) {
+  heroTrack.innerHTML = heroItems
+    .map(
+      (item, index) => `<article class="hero-slide" data-hero-slide aria-roledescription="slide" aria-label="${index + 1} de ${heroItems.length}: ${esc(item.title)}">
+        <img src="${esc(item.image)}" alt="" ${index > 1 ? 'loading="lazy"' : ""} />
+        <div class="hero-slide-copy">
+          <span class="hero-kind">${item.kind}</span>
+          <h2>${titleMarkup(item.title)}</h2>
+          <p>${esc(item.description)}</p>
+          <div class="event-actions">
+            <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
+            <a class="button button-ghost-light" href="${item.href || "#sobre"}">Saiba mais</a>
+          </div>
+        </div>
+        <span class="hero-peek" aria-hidden="true"><small>Próximo</small>${esc(item.title)}</span>
+      </article>`,
+    )
+    .join("");
+}
+
 const carousel = document.querySelector("[data-event-carousel]");
-const eventSlides = [...document.querySelectorAll("[data-event-slide]")];
+const eventSlides = [...document.querySelectorAll("[data-hero-slide]")];
 const eventCurrent = document.querySelector("[data-event-current]");
+const eventTotal = document.querySelector("[data-event-total]");
 const eventProgress = document.querySelector("[data-event-progress]");
-const eventTitle = document.querySelector("[data-event-title]");
-const eventDescription = document.querySelector("[data-event-description]");
-const eventDetails = [
-  {
-    title: "CodeClub Hackathon",
-    description: "Um hackathon para jovens do ensino médio transformarem ideias em protótipos.",
-  },
-  {
-    title: "Code Kids",
-    description: "Aulas divertidas para crianças descobrirem tecnologia criando e brincando.",
-  },
-  {
-    title: "Code Teens",
-    description: "Aulas para adolescentes aprenderem, experimentarem e construírem com tecnologia.",
-  },
-];
+if (eventTotal) eventTotal.textContent = `/ ${String(eventSlides.length).padStart(2, "0")}`;
 let eventIndex = 0;
 let eventTimer;
 
@@ -63,17 +85,20 @@ const animateEventProgress = () => {
   eventProgress.classList.add("is-running");
 };
 
+// O ativo fica à esquerda, o próximo aparece em seguida e o anterior encolhe para fora pela esquerda.
 const showEvent = (nextIndex, restart = true) => {
   if (!eventSlides.length) return;
-  eventIndex = (nextIndex + eventSlides.length) % eventSlides.length;
-  eventSlides.forEach((slide, index) => slide.classList.toggle("is-active", index === eventIndex));
+  const total = eventSlides.length;
+  eventIndex = (nextIndex + total) % total;
+  eventSlides.forEach((slide, index) => {
+    const position = (index - eventIndex + total) % total;
+    slide.style.order = position === total - 1 && total > 2 ? -1 : position;
+    slide.classList.toggle("is-active", position === 0);
+    slide.classList.toggle("is-next", position === 1);
+    slide.toggleAttribute("inert", position !== 0);
+    slide.setAttribute("aria-hidden", String(position !== 0));
+  });
   if (eventCurrent) eventCurrent.textContent = String(eventIndex + 1).padStart(2, "0");
-  const detail = eventDetails[eventIndex];
-  if (detail && eventTitle) {
-    const words = detail.title.split(" ");
-    eventTitle.innerHTML = `${words.slice(0, -1).join(" ")}<br /><em>${words.at(-1)}</em>`;
-  }
-  if (detail && eventDescription) eventDescription.textContent = detail.description;
   animateEventProgress();
   if (restart) startEventTimer();
 };
@@ -86,6 +111,21 @@ const startEventTimer = () => {
 
 document.querySelector("[data-event-prev]")?.addEventListener("click", () => showEvent(eventIndex - 1));
 document.querySelector("[data-event-next]")?.addEventListener("click", () => showEvent(eventIndex + 1));
+heroTrack?.addEventListener("click", (event) => {
+  if (event.target.closest(".hero-slide.is-next")) showEvent(eventIndex + 1);
+});
+carousel?.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight") showEvent(eventIndex + 1);
+  if (event.key === "ArrowLeft") showEvent(eventIndex - 1);
+});
+let swipeStart = null;
+heroTrack?.addEventListener("pointerdown", (event) => { swipeStart = event.clientX; });
+heroTrack?.addEventListener("pointerup", (event) => {
+  if (swipeStart === null) return;
+  const delta = event.clientX - swipeStart;
+  swipeStart = null;
+  if (Math.abs(delta) > 50) showEvent(eventIndex + (delta < 0 ? 1 : -1));
+});
 showEvent(0);
 
 const story = document.querySelector("[data-story]");
@@ -100,26 +140,37 @@ const cardMotion = [
   { x: 70, y: 75, r: -5 },
   { x: -55, y: 70, r: 5 },
 ];
-let storyTicking = false;
+const easeOutCubic = (t) => 1 - (1 - t) ** 3;
+let storyTarget = 0;
+let storyCurrent = 0;
+let storyRunning = false;
+let storyMobileFactor = window.innerWidth < 790 ? 0.55 : 1;
 
-const updateStory = () => {
-  storyTicking = false;
-  if (!story || !storyPhoto) return;
+const readStoryProgress = () => {
+  if (!story) return 0;
   const rect = story.getBoundingClientRect();
   const distance = Math.max(1, story.offsetHeight - window.innerHeight);
-  const progress = clamp(-rect.top / distance);
-  const scale = 1 - progress * 0.58;
-  storyPhoto.style.transform = `translate(-50%, 0) scale(${scale}) rotate(${progress * -2}deg)`;
-  if (storyHeading) storyHeading.style.opacity = String(1 - clamp((progress - 0.03) / 0.19));
-  if (storyProgress) storyProgress.style.height = `${progress * 100}%`;
+  return clamp(-rect.top / distance);
+};
+
+const renderStory = (progress) => {
+  if (!storyPhoto) return;
+  const photoProgress = clamp(progress / 0.85);
+  storyPhoto.style.transform = `translate3d(-50%, 0, 0) scale(${1 - photoProgress * 0.58}) rotate(${photoProgress * -2}deg)`;
+  if (storyHeading) {
+    const fade = easeOutCubic(clamp((progress - 0.03) / 0.19));
+    storyHeading.style.opacity = String(1 - fade);
+    storyHeading.style.transform = `translate3d(-50%, ${fade * -24}px, 0)`;
+  }
+  if (storyProgress) storyProgress.style.transform = `scaleY(${progress})`;
 
   storyCards.forEach((card, index) => {
     const start = Number(card.dataset.start || 0);
-    const local = clamp((progress - start) / 0.13);
+    const local = easeOutCubic(clamp((progress - start) / 0.16));
     const motion = cardMotion[index];
-    const mobileFactor = window.innerWidth < 790 ? 0.55 : 1;
-    card.style.opacity = String(local);
-    card.style.transform = `translate(${motion.x * (1 - local) * mobileFactor}px, ${motion.y * (1 - local) * mobileFactor}px) rotate(${motion.r}deg) scale(${0.78 + local * 0.22})`;
+    const rest = 1 - local;
+    card.style.opacity = String(clamp(local * 1.4));
+    card.style.transform = `translate3d(${motion.x * rest * storyMobileFactor}px, ${motion.y * rest * storyMobileFactor}px, 0) rotate(${motion.r * (1 + rest)}deg) scale(${0.82 + local * 0.18})`;
   });
 
   if (storyStep) {
@@ -128,16 +179,71 @@ const updateStory = () => {
   }
 };
 
+// A animação persegue a posição do scroll com interpolação, em vez de pular junto com cada giro da roda do mouse.
+const storyFrame = () => {
+  const delta = storyTarget - storyCurrent;
+  storyCurrent = Math.abs(delta) < 0.0004 ? storyTarget : storyCurrent + delta * 0.14;
+  renderStory(storyCurrent);
+  if (storyCurrent !== storyTarget) window.requestAnimationFrame(storyFrame);
+  else storyRunning = false;
+};
+
 const requestStoryUpdate = () => {
   header?.classList.toggle("is-sticky", window.scrollY > 36);
-  if (storyTicking) return;
-  storyTicking = true;
-  window.requestAnimationFrame(updateStory);
+  storyTarget = readStoryProgress();
+  if (reduceMotion) {
+    storyCurrent = storyTarget;
+    renderStory(storyCurrent);
+    return;
+  }
+  if (storyRunning) return;
+  storyRunning = true;
+  window.requestAnimationFrame(storyFrame);
 };
 
 window.addEventListener("scroll", requestStoryUpdate, { passive: true });
-window.addEventListener("resize", requestStoryUpdate, { passive: true });
+window.addEventListener("resize", () => {
+  storyMobileFactor = window.innerWidth < 790 ? 0.55 : 1;
+  requestStoryUpdate();
+}, { passive: true });
+storyCurrent = readStoryProgress();
 requestStoryUpdate();
+
+// Livros de projetos: usa os projetos publicados no admin (data.js).
+const projectColors = ["project-blue", "project-coral", "project-cyan", "project-lime"];
+const projectVisual = (project) => {
+  if (project.visual === "bot") return `<div class="project-bot"><img src="public/assets/brand/mascot-wave.png" alt="Ilustração do assistente virtual criado pelo clube" /></div>`;
+  if (project.visual === "window") return `<div class="project-window" aria-hidden="true"><i></i><div><span></span><b></b><b></b></div></div>`;
+  if (project.visual === "rings") return `<div class="project-rings" aria-hidden="true"><i></i><i></i><strong>ODS<br />+ TEC</strong></div>`;
+  const images = [project.cover, ...(project.gallery || [])].filter(Boolean);
+  if (images.length) {
+    const slides = images.map((src, index) => `<img class="${index === 0 ? "is-active" : ""}" src="${esc(src)}" alt="Foto ${index + 1} do projeto ${esc(project.title)}" loading="lazy" />`).join("");
+    const dots = images.length > 1
+      ? `<div class="photo-dots">${images.map((_, index) => `<button type="button" class="${index === 0 ? "is-active" : ""}" data-photo-dot="${index}" aria-label="Mostrar foto ${index + 1}"></button>`).join("")}</div><span class="photo-count"><b data-photo-current>1</b>/${images.length}</span>`
+      : "";
+    return `<div class="project-photo project-photo-carousel" data-photo-carousel>${slides}${dots}</div>`;
+  }
+  return `<div class="project-photo project-photo-empty" aria-hidden="true"><strong>{i}</strong></div>`;
+};
+const projectBook = (project, index) => {
+  const number = String(index + 1).padStart(2, "0");
+  const words = project.title.trim().split(/\s+/);
+  const closedTitle = words.length > 1 ? `${esc(words.slice(0, -1).join(" "))}<br />${esc(words.at(-1))}` : esc(project.title);
+  return `<article class="project-card ${projectColors[index % projectColors.length]}" data-project-book>
+    <div class="project-book">
+      <div class="book-spread">
+        <div class="book-page book-page-right"><span class="book-folio">${number}</span><div class="project-copy"><h3>${esc(project.title)}</h3><p>${esc(project.description)}</p></div></div>
+      </div>
+      <div class="book-leaf">
+        <div class="book-closed" aria-hidden="true"><span>PROJETO ${number}</span><strong>${closedTitle}</strong><small>${esc(project.category)}</small></div>
+        <div class="book-page book-page-left"><div class="project-meta"><span>${number}</span><span>${esc(project.category).toUpperCase()}</span></div>${projectVisual(project)}</div>
+      </div>
+    </div>
+  </article>`;
+};
+const publishedProjects = typeof CC === "undefined" ? [] : CC.load("projects").filter((project) => project.status === "Publicado" && project.showInProjects !== false);
+const projectSliderRoot = document.querySelector("[data-project-slider]");
+if (projectSliderRoot && publishedProjects.length) projectSliderRoot.innerHTML = publishedProjects.map(projectBook).join("");
 
 const projectSlider = document.querySelector("[data-project-slider]");
 const projectProgress = document.querySelector("[data-project-progress]");
@@ -177,6 +283,32 @@ const updateProjectProgress = () => {
   projectProgress.style.width = `${clamp(progress, 25, 100)}%`;
 };
 
+// Fotos dentro do livro aberto trocam sozinhas; o hover pausa e os pontos escolhem a foto.
+const showProjectPhoto = (carouselElement, index) => {
+  const photos = [...carouselElement.querySelectorAll(":scope > img")];
+  const next = (index + photos.length) % photos.length;
+  photos.forEach((photo, photoIndex) => photo.classList.toggle("is-active", photoIndex === next));
+  carouselElement.querySelectorAll("[data-photo-dot]").forEach((dot, dotIndex) => dot.classList.toggle("is-active", dotIndex === next));
+  const current = carouselElement.querySelector("[data-photo-current]");
+  if (current) current.textContent = next + 1;
+  carouselElement.dataset.index = next;
+};
+document.querySelectorAll("[data-photo-carousel]").forEach((carouselElement) => {
+  carouselElement.addEventListener("click", (event) => {
+    const dot = event.target.closest("[data-photo-dot]");
+    if (dot) showProjectPhoto(carouselElement, Number(dot.dataset.photoDot));
+  });
+  carouselElement.addEventListener("pointerenter", () => { carouselElement.dataset.paused = "true"; });
+  carouselElement.addEventListener("pointerleave", () => { delete carouselElement.dataset.paused; });
+});
+if (!reduceMotion) {
+  window.setInterval(() => {
+    const active = document.querySelector(".project-card.is-book-open [data-photo-carousel]");
+    if (!active || active.dataset.paused || active.querySelectorAll(":scope > img").length < 2) return;
+    showProjectPhoto(active, Number(active.dataset.index || 0) + 1);
+  }, 3500);
+}
+
 document.querySelector("[data-project-prev]")?.addEventListener("click", () => projectSlider?.scrollBy({ left: -projectStep(), behavior: "smooth" }));
 document.querySelector("[data-project-next]")?.addEventListener("click", () => projectSlider?.scrollBy({ left: projectStep(), behavior: "smooth" }));
 projectSlider?.addEventListener("scroll", () => {
@@ -186,6 +318,16 @@ projectSlider?.addEventListener("scroll", () => {
 window.addEventListener("resize", updateProjectBooks, { passive: true });
 updateProjectProgress();
 updateProjectBooks();
+
+// Frentes: em telas de toque, o toque abre e fecha a descrição.
+document.querySelectorAll("[data-team-card]").forEach((card) => {
+  card.addEventListener("click", () => {
+    if (window.matchMedia("(hover: hover)").matches) return;
+    const open = !card.classList.contains("is-open");
+    document.querySelectorAll("[data-team-card].is-open").forEach((other) => other.classList.remove("is-open"));
+    card.classList.toggle("is-open", open);
+  });
+});
 
 document.querySelectorAll(".faq-item > button").forEach((button) => {
   button.addEventListener("click", () => {

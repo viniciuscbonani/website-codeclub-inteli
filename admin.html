@@ -9,6 +9,7 @@
     <link rel="icon" href="public/assets/references/reference-08.png" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="admin.css" />
+    <script src="data.js" defer></script>
     <script src="admin.js" defer></script>
   </head>
   <body class="admin-body">
@@ -22,48 +23,147 @@
 
         <nav class="admin-nav" aria-label="Administração">
           <a href="index.html"><img src="public/assets/admin/home.svg" alt="" />Voltar ao site</a>
-          <button class="is-active" type="button" data-admin-route="dashboard"><img src="public/assets/admin/projects.svg" alt="" />Projetos</button>
-          <button type="button"><img src="public/assets/admin/events.svg" alt="" />Eventos</button>
-          <button type="button"><img src="public/assets/admin/members.svg" alt="" />Membros</button>
+          <button type="button" data-admin-route="dashboard" data-nav-group="projects"><img src="public/assets/admin/projects.svg" alt="" />Projetos<b data-nav-count="projects"></b></button>
+          <button type="button" data-admin-route="events" data-nav-group="events"><img src="public/assets/admin/events.svg" alt="" />Eventos<b data-nav-count="events"></b></button>
+          <button type="button" data-admin-route="members" data-nav-group="members"><img src="public/assets/admin/members.svg" alt="" />Membros<b data-nav-count="members"></b></button>
         </nav>
 
         <div class="admin-profile">
           <span class="admin-avatar"><img src="public/assets/admin/user.svg" alt="" /></span>
           <span><strong>Admin CodeClub</strong><small>Administrador</small></span>
-          <button type="button" aria-label="Configurações" data-admin-route="settings"><img src="public/assets/admin/settings.svg" alt="" /></button>
+          <button type="button" aria-label="Configurações" data-admin-route="settings" data-nav-group="settings"><img src="public/assets/admin/settings.svg" alt="" /></button>
         </div>
       </aside>
 
       <main class="admin-main" id="admin-content">
-        <section class="admin-view is-active" data-admin-view="dashboard">
+        <!-- Projetos -->
+        <section class="admin-view" data-admin-view="dashboard" hidden>
           <header class="admin-page-head">
-            <div><span class="admin-eyebrow">Área de admin</span><h1>Projetos</h1><p>Organize as iniciativas que aproximam tecnologia e comunidade.</p></div>
+            <div><span class="admin-eyebrow">Área de admin</span><h1>Projetos</h1><p>Os projetos publicados aparecem na seção “Coisas que já saíram do papel” da landing.</p></div>
             <button class="admin-primary" type="button" data-admin-route="new-project"><span>＋</span>Novo projeto</button>
           </header>
-
           <div class="admin-toolbar">
-            <label class="admin-search"><img src="public/assets/admin/search.svg" alt="" /><input type="search" placeholder="Buscar projetos" aria-label="Buscar projetos" data-project-search /></label>
-            <span data-project-count>6 projetos</span>
+            <label class="admin-search"><img src="public/assets/admin/search.svg" alt="" /><input type="search" placeholder="Buscar projetos" aria-label="Buscar projetos" data-search="projects" /></label>
+            <span data-count="projects"></span>
           </div>
-
           <div class="admin-table-card">
             <div class="admin-table-scroll">
               <table>
-                <thead><tr><th><input type="checkbox" aria-label="Selecionar todos" /></th><th>Projeto</th><th>Frente</th><th>Responsável</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
-                <tbody data-project-list>
-                  <tr><td><input type="checkbox" aria-label="Selecionar CodeClub Hackathon" /></td><td><strong>CodeClub Hackathon</strong><small>Evento para estudantes do ensino médio</small></td><td>Eventos</td><td>Marina Costa</td><td><span class="status status-green">Publicado</span></td><td>Hoje, 14:20</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
-                  <tr><td><input type="checkbox" aria-label="Selecionar Code Kids" /></td><td><strong>Code Kids</strong><small>Aulas de tecnologia para crianças</small></td><td>Educacional</td><td>Ana Clara</td><td><span class="status status-purple">Em edição</span></td><td>Ontem, 18:40</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
-                  <tr><td><input type="checkbox" aria-label="Selecionar Code Teens" /></td><td><strong>Code Teens</strong><small>Aulas práticas para adolescentes</small></td><td>Educacional</td><td>Pedro Lima</td><td><span class="status status-green">Publicado</span></td><td>12 set, 10:15</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
-                  <tr><td><input type="checkbox" aria-label="Selecionar Trilha Web" /></td><td><strong>Trilha de desenvolvimento web</strong><small>Do primeiro HTML ao projeto final</small></td><td>Tecnologia</td><td>Lucas Alves</td><td><span class="status status-yellow">Rascunho</span></td><td>10 set, 16:32</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
-                  <tr><td><input type="checkbox" aria-label="Selecionar Oficina UI" /></td><td><strong>Oficina de UI</strong><small>Design de interfaces para iniciantes</small></td><td>Design</td><td>Beatriz Lima</td><td><span class="status status-purple">Em edição</span></td><td>8 set, 09:05</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
-                  <tr><td><input type="checkbox" aria-label="Selecionar Demo Day" /></td><td><strong>Demo Day</strong><small>Projetos encontrando pessoas</small></td><td>Relações</td><td>Rafael Dias</td><td><span class="status status-green">Publicado</span></td><td>5 set, 11:50</td><td><button class="icon-action" aria-label="Mais ações"><img src="public/assets/admin/more.svg" alt="" /></button></td></tr>
-                </tbody>
+                <thead><tr><th>Projeto</th><th>Categoria</th><th>Exibição</th><th>Imagens</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
+                <tbody data-list="projects"></tbody>
               </table>
             </div>
-            <nav class="admin-pagination" aria-label="Paginação"><button disabled><img src="public/assets/admin/chevron-left.svg" alt="" /></button><button class="is-current">1</button><button>2</button><button>3</button><button><img src="public/assets/admin/chevron-right.svg" alt="" /></button></nav>
+            <div class="admin-empty" data-empty="projects" hidden><img src="public/assets/brand/mascot-wave.png" alt="" /><strong>Nenhum projeto encontrado</strong><p>Crie o primeiro projeto ou ajuste a busca.</p></div>
           </div>
         </section>
 
+        <section class="admin-view" data-admin-view="new-project" hidden>
+          <header class="admin-page-head project-editor-head"><div class="title-icon"><img src="public/assets/admin/pencil.svg" alt="" /></div><div><span class="admin-eyebrow">Projetos</span><h1 data-form-title="projects">Novo projeto</h1><p>Capa, título, descrição e imagens. Publique para mostrar na landing.</p></div></header>
+          <form class="project-form" data-entity-form="projects" novalidate>
+            <section class="admin-card admin-fields">
+              <label class="project-title-field">Título do projeto<input name="title" placeholder="Ex.: Oficina de prototipação" maxlength="60" required /><small class="field-error">Dê um título ao projeto.</small></label>
+              <div class="field-grid">
+                <label class="project-title-field">Categoria<select name="category"><option>Desenvolvimento</option><option>Inteligência artificial</option><option>Produto &amp; design</option><option>Impacto social</option><option>Educacional</option><option>Eventos</option></select></label>
+                <label class="project-title-field">Status<select name="status"><option>Publicado</option><option>Em edição</option><option>Rascunho</option></select></label>
+              </div>
+              <label class="project-title-field">Descrição<textarea name="description" rows="5" maxlength="220" placeholder="Em uma ou duas frases, conte o que o projeto faz e para quem." required></textarea><small class="field-hint"><span data-char-count>0</span>/220</small><small class="field-error">Escreva uma descrição curta.</small></label>
+            </section>
+            <section class="admin-card media-section">
+              <div class="section-heading"><div><h2>Foto de capa</h2><p>Aparece na página esquerda do livro do projeto.</p></div><button class="admin-secondary" type="button" data-open-import="cover"><img src="public/assets/admin/upload.svg" alt="" />Escolher capa</button></div>
+              <div class="media-placeholder" data-image-preview="cover"><span>◇</span><p>Nenhuma capa selecionada</p></div>
+              <small class="field-error field-error-block" data-image-error>Para aparecer no carrossel inicial, o projeto precisa de uma capa.</small>
+            </section>
+            <section class="admin-card media-section">
+              <div class="section-heading"><div><h2>Imagens do projeto</h2><p>Até 4 imagens, mostradas como miniaturas ao lado da descrição.</p></div><label class="admin-secondary"><img src="public/assets/admin/upload.svg" alt="" />Adicionar imagens<input class="sr-only" type="file" accept="image/png,image/jpeg,image/webp" multiple data-gallery-input /></label></div>
+              <div class="gallery-grid" data-gallery-preview></div>
+            </section>
+            <section class="admin-card display-section">
+              <div><h2>Onde exibir</h2><p>Escolha em quais partes da landing o projeto aparece quando estiver publicado.</p></div>
+              <div class="display-options">
+                <label class="switch"><input type="checkbox" name="showInHero" /><span></span><b>Carrossel inicial<small>Slide em destaque no topo, usando a capa</small></b></label>
+                <label class="switch"><input type="checkbox" name="showInProjects" checked /><span></span><b>Coisas que já saíram do papel<small>Livro na seção de projetos</small></b></label>
+              </div>
+            </section>
+            <div class="project-actions"><button class="admin-secondary" type="button" data-admin-route="dashboard">Cancelar</button><button class="admin-primary" type="submit" data-submit-label="projects">＋ Adicionar projeto</button></div>
+          </form>
+        </section>
+
+        <!-- Eventos -->
+        <section class="admin-view" data-admin-view="events" hidden>
+          <header class="admin-page-head">
+            <div><span class="admin-eyebrow">Área de admin</span><h1>Eventos</h1><p>Cada evento vira um slide do carrossel no topo da landing, na ordem abaixo.</p></div>
+            <button class="admin-primary" type="button" data-admin-route="new-event"><span>＋</span>Novo evento</button>
+          </header>
+          <div class="admin-toolbar">
+            <label class="admin-search"><img src="public/assets/admin/search.svg" alt="" /><input type="search" placeholder="Buscar eventos" aria-label="Buscar eventos" data-search="events" /></label>
+            <span data-count="events"></span>
+          </div>
+          <div class="event-admin-grid" data-list="events"></div>
+          <div class="admin-empty admin-card" data-empty="events" hidden><img src="public/assets/brand/mascot-wave.png" alt="" /><strong>Nenhum evento encontrado</strong><p>Sem eventos, o carrossel mostra o conteúdo padrão.</p></div>
+        </section>
+
+        <section class="admin-view" data-admin-view="new-event" hidden>
+          <header class="admin-page-head project-editor-head"><div class="title-icon"><img src="public/assets/admin/events.svg" alt="" /></div><div><span class="admin-eyebrow">Eventos</span><h1 data-form-title="events">Novo evento</h1><p>A última palavra do título aparece em destaque no carrossel.</p></div></header>
+          <form class="project-form" data-entity-form="events" novalidate>
+            <section class="admin-card admin-fields">
+              <label class="project-title-field">Título do evento<input name="title" placeholder="Ex.: CodeClub Hackathon" maxlength="40" required /><small class="field-error">Dê um título ao evento.</small></label>
+              <label class="project-title-field">Data (opcional)<input name="date" type="date" /></label>
+              <label class="project-title-field">Descrição<textarea name="description" rows="3" maxlength="140" placeholder="Uma frase que convide a participar." required></textarea><small class="field-hint"><span data-char-count>0</span>/140</small><small class="field-error">Escreva uma descrição curta.</small></label>
+            </section>
+            <section class="admin-card media-section">
+              <div class="section-heading"><div><h2>Foto do evento</h2><p>Use uma foto horizontal: ela ocupa o slide inteiro.</p></div><button class="admin-secondary" type="button" data-open-import="image"><img src="public/assets/admin/upload.svg" alt="" />Escolher foto</button></div>
+              <div class="media-placeholder" data-image-preview="image"><span>◇</span><p>Nenhuma foto selecionada</p></div>
+              <small class="field-error field-error-block" data-image-error>Escolha uma foto para o slide.</small>
+            </section>
+            <div class="project-actions"><button class="admin-secondary" type="button" data-admin-route="events">Cancelar</button><button class="admin-primary" type="submit" data-submit-label="events">＋ Adicionar evento</button></div>
+          </form>
+        </section>
+
+        <!-- Membros -->
+        <section class="admin-view" data-admin-view="members" hidden>
+          <header class="admin-page-head">
+            <div><span class="admin-eyebrow">Área de admin</span><h1>Membros</h1><p>Quem faz o clube acontecer, organizado por frente e cargo.</p></div>
+            <button class="admin-primary" type="button" data-admin-route="new-member"><span>＋</span>Novo membro</button>
+          </header>
+          <div class="admin-toolbar">
+            <label class="admin-search"><img src="public/assets/admin/search.svg" alt="" /><input type="search" placeholder="Buscar por nome, frente ou cargo" aria-label="Buscar membros" data-search="members" /></label>
+            <div class="front-filter" role="group" aria-label="Filtrar por frente" data-front-filter></div>
+            <span data-count="members"></span>
+          </div>
+          <div class="admin-table-card">
+            <div class="admin-table-scroll">
+              <table>
+                <thead><tr><th>Membro</th><th>Frente</th><th>Cargo</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
+                <tbody data-list="members"></tbody>
+              </table>
+            </div>
+            <div class="admin-empty" data-empty="members" hidden><img src="public/assets/brand/mascot-wave.png" alt="" /><strong>Nenhum membro encontrado</strong><p>Cadastre alguém ou ajuste a busca.</p></div>
+          </div>
+        </section>
+
+        <section class="admin-view" data-admin-view="new-member" hidden>
+          <header class="admin-page-head project-editor-head"><div class="title-icon"><img src="public/assets/admin/members.svg" alt="" /></div><div><span class="admin-eyebrow">Membros</span><h1 data-form-title="members">Novo membro</h1><p>Cadastre a pessoa, a frente em que atua e o cargo.</p></div></header>
+          <form class="project-form" data-entity-form="members" novalidate>
+            <section class="admin-card member-form-card">
+              <div class="member-photo-field">
+                <span class="member-photo" data-image-preview="photo"><img src="public/assets/admin/user.svg" alt="" /></span>
+                <button class="admin-secondary" type="button" data-open-import="photo">Enviar foto</button>
+              </div>
+              <div class="admin-fields">
+                <label class="project-title-field">Nome completo<input name="name" placeholder="Ex.: Beatriz Nogueira" autocomplete="off" required /><small class="field-error">Informe o nome.</small></label>
+                <label class="project-title-field">E-mail<input name="email" type="email" placeholder="nome@inteli.edu.br" autocomplete="off" required /><small class="field-error">Informe um e-mail válido.</small></label>
+                <div class="field-grid">
+                  <label class="project-title-field">Frente<select name="front" data-front-select></select></label>
+                  <label class="project-title-field">Cargo<input name="role" list="role-options" placeholder="Ex.: Líder" required /><small class="field-error">Informe o cargo.</small></label>
+                </div>
+                <datalist id="role-options"><option value="Presidente"></option><option value="Vice-presidente"></option><option value="Líder"></option><option value="Membro"></option><option value="Voluntário"></option><option value="Monitor"></option></datalist>
+              </div>
+            </section>
+            <div class="project-actions"><button class="admin-secondary" type="button" data-admin-route="members">Cancelar</button><button class="admin-primary" type="submit" data-submit-label="members">＋ Adicionar membro</button></div>
+          </form>
+        </section>
+
+        <!-- Configurações -->
         <section class="admin-view" data-admin-view="settings" hidden>
           <header class="admin-page-head"><div><span class="admin-eyebrow">Sua conta</span><h1>Configurações</h1><p>Atualize seus dados e preferências do painel.</p></div></header>
           <div class="settings-layout">
@@ -71,23 +171,14 @@
             <div class="settings-content">
               <section class="admin-card profile-photo-card"><h2>Foto de perfil</h2><div class="profile-photo-row"><span class="profile-photo"><img src="public/assets/admin/user.svg" alt="" /></span><div><button class="admin-secondary" type="button">Enviar foto</button><button class="text-button" type="button">Remover</button></div><p><strong>Requisitos da imagem</strong>JPG ou PNG, mínimo de 400 × 400 px e máximo de 2 MB.</p></div></section>
               <form class="admin-card settings-form" data-settings-form><h2>Dados do usuário</h2><div class="field-grid"><label>Nome<input name="name" value="Admin" /></label><label>Sobrenome<input name="lastname" value="CodeClub" /></label></div><label>E-mail<input type="email" name="email" value="admin@inteli.edu.br" /></label><label>Cargo<input name="role" value="Administrador" /></label><label>Idioma<select name="language"><option>Português (Brasil)</option><option>English</option></select></label><div class="form-actions"><button class="admin-primary" type="submit">Salvar alterações</button></div></form>
-              <p class="admin-notice" role="status" data-settings-notice>✓ Alterações salvas com sucesso.</p>
+              <section class="admin-card reset-card"><div><h2>Dados do protótipo</h2><p>Projetos, eventos e membros ficam salvos só neste navegador. Restaure o conteúdo original quando quiser.</p></div><button class="admin-secondary" type="button" data-reset-data>Restaurar padrão</button></section>
             </div>
           </div>
         </section>
-
-        <section class="admin-view" data-admin-view="new-project" hidden>
-          <header class="admin-page-head project-editor-head"><div class="title-icon"><img src="public/assets/admin/pencil.svg" alt="" /></div><div><span class="admin-eyebrow">Projetos</span><h1>Novo projeto</h1><p>Registre uma nova iniciativa do clube.</p></div></header>
-          <form class="project-form" data-project-form>
-            <section class="admin-card"><label class="project-title-field">Título do projeto<input name="title" placeholder="Ex.: Oficina de prototipação" required /></label></section>
-            <section class="admin-card"><h2>Descrição do projeto</h2><div class="editor"><div class="editor-toolbar" aria-label="Formatação"><select aria-label="Estilo do texto"><option>Parágrafo</option><option>Título</option></select><button type="button"><b>B</b></button><button type="button"><i>I</i></button><button type="button"><u>U</u></button><span></span><button type="button">☷</button><button type="button">≡</button><button type="button">↗</button></div><textarea name="description" placeholder="Conte o objetivo, o público e como o projeto vai acontecer..." required></textarea></div></section>
-            <section class="admin-card media-section"><div class="section-heading"><div><h2>Mídia do projeto</h2><p>Adicione uma capa ou material de apoio.</p></div><button class="admin-secondary" type="button" data-open-import><img src="public/assets/admin/upload.svg" alt="" />Inserir mídia</button></div><div class="media-placeholder" data-media-preview><span>◇</span><p>Nenhuma mídia selecionada</p></div></section>
-            <section class="admin-card qr-section"><div><h2>Permitir anexação via QR Code</h2><p>Participantes poderão anexar imagens ou documentos usando um QR Code.</p></div><label class="switch"><input type="checkbox" name="qr" /><span></span><b>Permitir</b></label></section>
-            <div class="project-actions"><button class="admin-secondary" type="button" data-admin-route="dashboard">Cancelar</button><button class="admin-primary" type="submit">＋ Adicionar projeto</button></div>
-          </form>
-        </section>
       </main>
     </div>
+
+    <p class="admin-toast" role="status" aria-live="polite" data-toast></p>
 
     <dialog class="import-dialog" data-import-dialog>
       <form method="dialog" class="import-card" data-import-form>

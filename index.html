@@ -9,6 +9,7 @@
     <link rel="icon" href="public/assets/references/reference-08.png" />
     <script>document.documentElement.classList.add("js");</script>
     <link rel="stylesheet" href="styles.css" />
+    <script src="data.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -23,6 +24,7 @@
       </button>
       <nav class="main-nav" aria-label="Navegação principal" data-menu>
         <a href="#sobre">Sobre</a>
+        <a href="#programas">Programas</a>
         <a href="#competencias">Matérias</a>
         <a href="#projetos">Projetos</a>
         <a href="#equipe">Equipe</a>
@@ -34,42 +36,37 @@
     </header>
 
     <main id="conteudo">
-      <section class="event-hero" id="inicio" data-event-carousel aria-labelledby="event-title">
-        <div class="event-slides" aria-live="polite">
-          <figure class="event-slide is-active" data-event-slide>
+      <section class="event-hero" id="inicio" data-event-carousel aria-roledescription="carrossel" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="sr-only">Code Club: tecnologia e programação para crianças, adolescentes e jovens</h1>
+        <div class="hero-track" data-hero-track aria-live="polite">
+          <article class="hero-slide is-active" data-hero-slide aria-roledescription="slide" aria-label="1 de 1">
             <img src="public/assets/events/event-01.png" alt="Estudantes colaborando no CodeClub Hackathon" />
-          </figure>
-          <figure class="event-slide" data-event-slide>
-            <img src="public/assets/events/event-02.png" alt="Crianças participando de uma aula do Code Kids" />
-          </figure>
-          <figure class="event-slide" data-event-slide>
-            <img src="public/assets/events/event-03.png" alt="Adolescentes participando de uma aula do Code Teens" />
-          </figure>
+            <div class="hero-slide-copy">
+              <span class="hero-kind">Evento</span>
+              <h2>CodeClub<br /><em>Hackathon</em></h2>
+              <p>Um hackathon para jovens do ensino médio transformarem ideias em protótipos.</p>
+              <div class="event-actions">
+                <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
+                <a class="button button-ghost-light" href="#sobre">Saiba mais</a>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="event-shade" aria-hidden="true"></div>
-
-        <div class="event-hero-content">
-          <h1 id="event-title" class="reveal"><span data-event-title>CodeClub<br /><em>Hackathon</em></span></h1>
-          <p class="event-lead reveal" data-event-description>Um hackathon para jovens do ensino médio transformarem ideias em protótipos.</p>
-          <div class="event-actions reveal">
-            <a class="button button-light" href="login.html#signup">Quero participar <span>↗</span></a>
-            <a class="button button-ghost-light" href="#sobre">Saiba mais</a>
-          </div>
-        </div>
-        <img class="event-mascot" src="public/assets/brand/mascot-wave.png" alt="Mascote robô do Code Club acenando" />
+        <img class="event-mascot" src="public/assets/brand/mascot-wave.png" alt="" aria-hidden="true" />
 
         <div class="event-controls">
-          <div class="event-count"><strong data-event-current>01</strong><span>/ 03</span></div>
+          <div class="event-count"><strong data-event-current>01</strong><span data-event-total>/ 01</span></div>
           <div class="event-progress" aria-hidden="true"><span data-event-progress></span></div>
-          <button type="button" aria-label="Imagem anterior" data-event-prev>←</button>
-          <button type="button" aria-label="Próxima imagem" data-event-next>→</button>
+          <button type="button" aria-label="Slide anterior" data-event-prev>←</button>
+          <button type="button" aria-label="Próximo slide" data-event-next>→</button>
         </div>
       </section>
 
-      <section class="story-scroll" id="sobre" data-story aria-label="Os valores do CodeClub">
+      <section class="story-scroll" id="sobre" data-story aria-label="Missão e valores do Code Club">
         <div class="story-sticky">
           <div class="story-heading" data-story-heading>
             <h2>Tecnologia aproxima quando ninguém fica de fora.</h2>
+            <p>Nossa missão: capacitar, inspirar e unir comunidades pela educação em tecnologia, com inclusão digital e acessibilidade.</p>
           </div>
 
           <div class="story-photo" data-story-photo>
@@ -78,24 +75,51 @@
           </div>
 
           <article class="story-card story-card-one" data-story-card data-start="0.22">
-            <strong>Aprender<br />fazendo</strong>
-            <p>Ideias viram experimentos, não ficam em apresentações.</p>
+            <strong>Educação que<br />transforma</strong>
+            <p>Aprender tecnologia abre portas: para a escola, o trabalho e a comunidade.</p>
           </article>
           <article class="story-card story-card-two" data-story-card data-start="0.4">
-            <strong>Troca<br />aberta</strong>
-            <p>Todo repertório importa. Todo mundo tem algo para ensinar.</p>
+            <strong>Inovação com<br />propósito</strong>
+            <p>Criamos com tecnologia para resolver problemas reais, com impacto social.</p>
           </article>
           <article class="story-card story-card-three" data-story-card data-start="0.58">
-            <strong>Impacto<br />real</strong>
-            <p>Tecnologia faz sentido quando melhora algo ao redor.</p>
+            <strong>Protagonismo<br />jovem</strong>
+            <p>Jovens ensinam, criam e lideram. Cada aluno constrói o próprio projeto.</p>
           </article>
           <article class="story-card story-card-four" data-story-card data-start="0.72">
-            <strong>Juntos<br />é melhor</strong>
-            <p>Projetos crescem quando diferentes pessoas constroem lado a lado.</p>
+            <strong>Inclusão<br />digital</strong>
+            <p>Levamos aulas de programação a quem ainda não teve acesso a elas.</p>
           </article>
 
           <div class="story-progress" aria-hidden="true"><span data-story-progress></span></div>
           <span class="story-step" data-story-step>01 / 04</span>
+        </div>
+      </section>
+
+      <section class="programs" id="programas" aria-labelledby="programs-title">
+        <div class="programs-shell page-shell">
+          <div class="programs-intro reveal">
+            <h2 id="programs-title">Três programas, uma porta de entrada.</h2>
+            <p>Uma iniciativa voluntária criada por alunas do Inteli e inspirada no movimento global da Raspberry Pi Foundation para ensinar programação a crianças e jovens.</p>
+            <div class="impact-tile">
+              <strong>+60</strong>
+              <span>alunos nos programas<br />Code Start e Code Teens em 2025</span>
+            </div>
+          </div>
+          <div class="program-list">
+            <article class="program program-kids reveal">
+              <span class="program-index" aria-hidden="true">01</span><figure><img src="public/assets/programs/code-kids.jpg" alt="Turma do Code Kids reunida na escadaria do Inteli" loading="lazy" /></figure>
+              <div><span class="program-audience">Crianças</span><h3>Code Kids</h3><p>Ensino prático e introdutório de tecnologia e programação para crianças.</p></div>
+            </article>
+            <article class="program program-teens reveal">
+              <span class="program-index" aria-hidden="true">02</span><figure><img src="public/assets/programs/code-teens.jpg" alt="Turma do Code Teens reunida na escadaria do Inteli" loading="lazy" /></figure>
+              <div><span class="program-audience">Adolescentes</span><h3>Code Teens</h3><p>Ensino de tecnologia e programação para adolescentes.</p></div>
+            </article>
+            <article class="program program-start reveal reveal-late">
+              <span class="program-index" aria-hidden="true">03</span><figure><img src="public/assets/programs/code-start.jpg" alt="Participantes do Code Start reunidos no Inteli" loading="lazy" /></figure>
+              <div><span class="program-audience">Jovens</span><h3>Code Start</h3><p>Tecnologia, programação e negócios para jovens, com foco em aplicabilidade real.</p></div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -193,10 +217,10 @@
           <p>Áreas diferentes cuidando da mesma comunidade.</p>
         </div>
         <div class="team-grid page-shell">
-          <article class="team-card reveal"><div><img src="public/assets/references/reference-13.png" alt="Representante da frente educacional" /><span>01</span></div><h3>Educacional</h3><p>Experiências de aprendizagem</p></article>
-          <article class="team-card reveal reveal-late"><div><img src="public/assets/references/reference-16.png" alt="Representante da frente de marketing" /><span>02</span></div><h3>Marketing</h3><p>Histórias que aproximam</p></article>
-          <article class="team-card reveal"><div><img src="public/assets/references/reference-09.png" alt="Representante da frente financeira" /><span>03</span></div><h3>Financeiro</h3><p>Estrutura para as ideias</p></article>
-          <article class="team-card reveal reveal-late"><div><img src="public/assets/references/reference-17.png" alt="Representante da frente de relações" /><span>04</span></div><h3>Relações</h3><p>Parcerias que expandem</p></article>
+          <article class="team-card reveal" tabindex="0" data-team-card><div><img src="public/assets/references/reference-13.png" alt="Representante da frente educacional" /><span>01</span><p class="team-card-desc">Focado no aprendizado: cria conteúdos educativos e pedagógicos, aulas e monitorias.</p></div><h3>Educacional</h3><p>Experiências de aprendizagem</p></article>
+          <article class="team-card reveal reveal-late" tabindex="0" data-team-card><div><img src="public/assets/references/reference-16.png" alt="Representante da frente de marketing" /><span>02</span><p class="team-card-desc">Cria o visual do Code Club, apresentações e posts, e leva mais visibilidade ao clube.</p></div><h3>Marketing</h3><p>Histórias que aproximam</p></article>
+          <article class="team-card reveal" tabindex="0" data-team-card><div><img src="public/assets/references/reference-09.png" alt="Representante da frente financeira" /><span>03</span><p class="team-card-desc">Organiza as finanças do clube: controle, reembolsos, planejamento, transporte, planilhas e automações.</p></div><h3>Financeiro</h3><p>Estrutura para as ideias</p></article>
+          <article class="team-card reveal reveal-late" tabindex="0" data-team-card><div><img src="public/assets/references/reference-17.png" alt="Representante da frente de relações" /><span>04</span><p class="team-card-desc">Busca novas parcerias e projetos, faz a ponte com as instituições e encontra quem precisa das aulas.</p></div><h3>Relações</h3><p>Parcerias que expandem</p></article>
         </div>
       </section>
 
@@ -217,15 +241,17 @@
         <img class="contact-mascot" src="public/assets/brand/mascot-wave.png" alt="Mascote do Code Club convidando para participar" />
         <h2 id="contact-title" class="reveal">Uma ideia fica melhor quando encontra <em>gente.</em></h2>
         <p class="reveal">Entre no clube, conheça as frentes e comece a construir com a gente.</p>
-        <div class="contact-actions reveal"><a class="button button-light" href="login.html#signup">Quero participar <span>→</span></a><a class="button button-ghost-light" href="mailto:codeclub@inteli.edu.br">Falar com o clube</a></div>
+        <div class="contact-actions reveal"><a class="button button-light" href="login.html#signup">Quero participar <span>→</span></a><a class="button button-ghost-light" href="mailto:codeclubinteli@gmail.com">Entre em contato</a></div>
+        <p class="contact-links reveal"><a href="mailto:codeclubinteli@gmail.com">codeclubinteli@gmail.com</a><span aria-hidden="true">·</span><a href="https://www.instagram.com/codeclubinteli/" target="_blank" rel="noopener">@codeclubinteli no Instagram</a></p>
       </section>
     </main>
 
     <footer class="site-footer">
-      <a class="brand brand-light" href="#inicio"><span class="brand-mark" aria-hidden="true">{i}</span><span>Code Club</span></a>
-      <p>Tecnologia feita em conjunto.</p>
-      <nav aria-label="Rodapé"><a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="login.html">Entrar</a></nav>
-      <span>© 2026 CodeClub · Inteli</span>
+      <a class="footer-brand" href="#inicio" aria-label="Code Club, voltar ao início"><img src="public/assets/brand/logo-codeclub-horizontal.png" alt="Code Club" /></a>
+      <p>Instigando jovens à tecnologia.</p>
+      <nav aria-label="Rodapé"><a href="#sobre">Sobre</a><a href="#programas">Programas</a><a href="#projetos">Projetos</a><a href="#equipe">Equipe</a><a href="login.html">Entrar</a></nav>
+      <div class="footer-contact"><a href="mailto:codeclubinteli@gmail.com">codeclubinteli@gmail.com</a><a href="https://www.instagram.com/codeclubinteli/" target="_blank" rel="noopener">Instagram @codeclubinteli</a></div>
+      <span>© 2026 Code Club · Inteli</span>
     </footer>
   </body>
 </html>
