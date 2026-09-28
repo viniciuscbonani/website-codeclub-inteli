@@ -140,26 +140,37 @@ const cardMotion = [
   { x: 70, y: 75, r: -5 },
   { x: -55, y: 70, r: 5 },
 ];
-let storyTicking = false;
+const easeOutCubic = (t) => 1 - (1 - t) ** 3;
+let storyTarget = 0;
+let storyCurrent = 0;
+let storyRunning = false;
+let storyMobileFactor = window.innerWidth < 790 ? 0.55 : 1;
 
-const updateStory = () => {
-  storyTicking = false;
-  if (!story || !storyPhoto) return;
+const readStoryProgress = () => {
+  if (!story) return 0;
   const rect = story.getBoundingClientRect();
   const distance = Math.max(1, story.offsetHeight - window.innerHeight);
-  const progress = clamp(-rect.top / distance);
-  const scale = 1 - progress * 0.58;
-  storyPhoto.style.transform = `translate(-50%, 0) scale(${scale}) rotate(${progress * -2}deg)`;
-  if (storyHeading) storyHeading.style.opacity = String(1 - clamp((progress - 0.03) / 0.19));
-  if (storyProgress) storyProgress.style.height = `${progress * 100}%`;
+  return clamp(-rect.top / distance);
+};
+
+const renderStory = (progress) => {
+  if (!storyPhoto) return;
+  const photoProgress = clamp(progress / 0.85);
+  storyPhoto.style.transform = `translate3d(-50%, 0, 0) scale(${1 - photoProgress * 0.58}) rotate(${photoProgress * -2}deg)`;
+  if (storyHeading) {
+    const fade = easeOutCubic(clamp((progress - 0.03) / 0.19));
+    storyHeading.style.opacity = String(1 - fade);
+    storyHeading.style.transform = `translate3d(-50%, ${fade * -24}px, 0)`;
+  }
+  if (storyProgress) storyProgress.style.transform = `scaleY(${progress})`;
 
   storyCards.forEach((card, index) => {
     const start = Number(card.dataset.start || 0);
-    const local = clamp((progress - start) / 0.13);
+    const local = easeOutCubic(clamp((progress - start) / 0.16));
     const motion = cardMotion[index];
-    const mobileFactor = window.innerWidth < 790 ? 0.55 : 1;
-    card.style.opacity = String(local);
-    card.style.transform = `translate(${motion.x * (1 - local) * mobileFactor}px, ${motion.y * (1 - local) * mobileFactor}px) rotate(${motion.r}deg) scale(${0.78 + local * 0.22})`;
+    const rest = 1 - local;
+    card.style.opacity = String(clamp(local * 1.4));
+    card.style.transform = `translate3d(${motion.x * rest * storyMobileFactor}px, ${motion.y * rest * storyMobileFactor}px, 0) rotate(${motion.r * (1 + rest)}deg) scale(${0.82 + local * 0.18})`;
   });
 
   if (storyStep) {
@@ -168,15 +179,34 @@ const updateStory = () => {
   }
 };
 
+// A animação persegue a posição do scroll com interpolação, em vez de pular junto com cada giro da roda do mouse.
+const storyFrame = () => {
+  const delta = storyTarget - storyCurrent;
+  storyCurrent = Math.abs(delta) < 0.0004 ? storyTarget : storyCurrent + delta * 0.14;
+  renderStory(storyCurrent);
+  if (storyCurrent !== storyTarget) window.requestAnimationFrame(storyFrame);
+  else storyRunning = false;
+};
+
 const requestStoryUpdate = () => {
   header?.classList.toggle("is-sticky", window.scrollY > 36);
-  if (storyTicking) return;
-  storyTicking = true;
-  window.requestAnimationFrame(updateStory);
+  storyTarget = readStoryProgress();
+  if (reduceMotion) {
+    storyCurrent = storyTarget;
+    renderStory(storyCurrent);
+    return;
+  }
+  if (storyRunning) return;
+  storyRunning = true;
+  window.requestAnimationFrame(storyFrame);
 };
 
 window.addEventListener("scroll", requestStoryUpdate, { passive: true });
-window.addEventListener("resize", requestStoryUpdate, { passive: true });
+window.addEventListener("resize", () => {
+  storyMobileFactor = window.innerWidth < 790 ? 0.55 : 1;
+  requestStoryUpdate();
+}, { passive: true });
+storyCurrent = readStoryProgress();
 requestStoryUpdate();
 
 // Livros de projetos: usa os projetos publicados no admin (data.js).

@@ -647,3 +647,8 @@
 @media(max-width:900px){.site-footer{grid-template-columns:1fr;grid-template-areas:"brand" "nav" "contact" "tagline" "copy"}.site-footer nav{justify-self:start}.footer-contact{align-items:flex-start}.site-footer>span{justify-self:start}}
 .program-start img{object-position:center 72%}
 .program>div{text-shadow:0 1px 12px rgba(20,10,60,.35)}
+
+/* Scroll dos valores: animação só em transform/opacity, com camada própria */
+.story-heading{transition:none;will-change:transform,opacity}
+.story-progress span{height:100%;transform:scaleY(0);transform-origin:top;will-change:transform}
+.story-photo,.story-card{backface-visibility:hidden}
