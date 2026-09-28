@@ -598,3 +598,8 @@
 .photo-dots button.is-active{width:22px;background:white}
 .photo-dots button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .photo-count{position:absolute;z-index:2;top:14px;right:16px;padding:4px 9px;border-radius:999px;color:white;background:rgba(53,31,159,.55);font-family:var(--display);font-size:11px;font-weight:700}
+
+/* Missão sob o título do "Sobre" */
+.story-heading p{max-width:560px;margin:16px auto 0;color:rgba(53,31,159,.72);font-size:15px;line-height:1.55;text-wrap:pretty}
+@media(max-width:790px){.story-heading p{font-size:13px}}
+
