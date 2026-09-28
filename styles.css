@@ -628,3 +628,16 @@
 .program-teens{margin-left:clamp(0px,4vw,48px)}
 @media(max-width:900px){.programs-shell{grid-template-columns:1fr}.programs-intro{position:static}.program-teens{margin-left:0}}
 @media(max-width:560px){.program{grid-template-columns:1fr;border-radius:32px}.program figure{min-height:200px;max-height:240px}.program>div{padding:22px}}
+
+/* Contato e rodapé */
+.contact-links{position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px;font-family:var(--display);font-size:13px;font-weight:700}
+.contact-links a{text-decoration:underline;text-decoration-color:rgba(255,255,255,.4);text-underline-offset:4px;transition:text-decoration-color .2s}
+.contact-links a:hover{text-decoration-color:currentColor}
+.site-footer{grid-template-columns:auto 1fr auto;grid-template-areas:"brand nav contact" "tagline tagline copy";row-gap:26px;column-gap:48px}
+.footer-brand{grid-area:brand}.footer-brand img{display:block;width:170px;filter:brightness(0) invert(1)}
+.site-footer>p{grid-area:tagline;color:rgba(255,255,255,.72)}
+.site-footer nav{grid-area:nav;justify-self:center;flex-wrap:wrap;font-size:12px}
+.footer-contact{grid-area:contact;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13px}
+.footer-contact a:hover{color:var(--green)}
+.site-footer>span{grid-area:copy;justify-self:end}
+@media(max-width:900px){.site-footer{grid-template-columns:1fr;grid-template-areas:"brand" "nav" "contact" "tagline" "copy"}.site-footer nav{justify-self:start}.footer-contact{align-items:flex-start}.site-footer>span{justify-self:start}}
