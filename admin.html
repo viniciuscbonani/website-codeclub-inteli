@@ -15,25 +15,29 @@
   <body class="admin-body">
     <a class="skip-link" href="#admin-content">Ir para o conteúdo</a>
     <div class="admin-shell">
-      <aside class="admin-sidebar" data-admin-sidebar>
+      <header class="admin-sidebar">
         <div class="admin-sidebar-head">
           <a href="index.html" aria-label="Code Club, ir para o site"><img src="public/assets/brand/logo-codeclub-horizontal.png" alt="Code Club" /></a>
-          <button class="admin-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-admin-menu-toggle><span></span><span></span></button>
         </div>
 
         <nav class="admin-nav" aria-label="Administração">
-          <a href="index.html"><img src="public/assets/admin/home.svg" alt="" />Voltar ao site</a>
-          <button type="button" data-admin-route="dashboard" data-nav-group="projects"><img src="public/assets/admin/projects.svg" alt="" />Projetos<b data-nav-count="projects"></b></button>
-          <button type="button" data-admin-route="events" data-nav-group="events"><img src="public/assets/admin/events.svg" alt="" />Eventos<b data-nav-count="events"></b></button>
-          <button type="button" data-admin-route="members" data-nav-group="members"><img src="public/assets/admin/members.svg" alt="" />Membros<b data-nav-count="members"></b></button>
+          <button type="button" data-admin-route="dashboard" data-nav-group="projects"><img src="public/assets/admin/projects.svg" alt="" /><span>Projetos</span><b data-nav-count="projects"></b></button>
+          <button type="button" data-admin-route="events" data-nav-group="events"><img src="public/assets/admin/events.svg" alt="" /><span>Eventos</span><b data-nav-count="events"></b></button>
+          <button type="button" data-admin-route="members" data-nav-group="members"><img src="public/assets/admin/members.svg" alt="" /><span>Membros</span><b data-nav-count="members"></b></button>
         </nav>
 
         <div class="admin-profile">
-          <span class="admin-avatar"><img src="public/assets/admin/user.svg" alt="" /></span>
-          <span><strong>Admin CodeClub</strong><small>Administrador</small></span>
-          <button type="button" aria-label="Configurações" data-admin-route="settings" data-nav-group="settings"><img src="public/assets/admin/settings.svg" alt="" /></button>
+          <button class="admin-profile-trigger" type="button" aria-expanded="false" aria-controls="admin-profile-menu" data-profile-trigger>
+            <span class="admin-avatar"><img src="public/assets/admin/user.svg" alt="" /></span>
+            <span class="admin-profile-text"><strong>Admin CodeClub</strong><small>Administrador</small></span>
+            <span class="admin-profile-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="admin-profile-menu" id="admin-profile-menu" hidden data-profile-menu>
+            <button type="button" data-admin-route="settings" data-nav-group="settings"><img src="public/assets/admin/settings.svg" alt="" />Configurações</button>
+            <a href="index.html"><img src="public/assets/admin/home.svg" alt="" />Voltar ao site</a>
+          </div>
         </div>
-      </aside>
+      </header>
 
       <main class="admin-main" id="admin-content">
         <!-- Projetos -->

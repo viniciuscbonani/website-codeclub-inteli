@@ -1,5 +1,3 @@
-const adminSidebar = document.querySelector("[data-admin-sidebar]");
-const adminMenuToggle = document.querySelector("[data-admin-menu-toggle]");
 const adminViews = [...document.querySelectorAll("[data-admin-view]")];
 const esc = CC.escape;
 
@@ -45,6 +43,46 @@ const persist = (key) => {
 
 /* ---------- Navegação ---------- */
 
+const adminNav = document.querySelector(".admin-nav");
+const adminProfile = document.querySelector(".admin-profile");
+const adminProfileTrigger = document.querySelector("[data-profile-trigger]");
+const adminProfileMenu = document.querySelector("[data-profile-menu]");
+const closeProfileMenu = () => {
+  adminProfileMenu.hidden = true;
+  adminProfileTrigger.setAttribute("aria-expanded", "false");
+};
+
+adminProfileTrigger.addEventListener("click", () => {
+  const open = adminProfileMenu.hidden;
+  adminProfileMenu.hidden = !open;
+  adminProfileTrigger.setAttribute("aria-expanded", String(open));
+});
+document.addEventListener("pointerdown", (event) => {
+  if (!adminProfile.contains(event.target)) closeProfileMenu();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || adminProfileMenu.hidden) return;
+  closeProfileMenu();
+  adminProfileTrigger.focus();
+});
+adminProfile.addEventListener("focusout", (event) => {
+  if (!adminProfile.contains(event.relatedTarget)) closeProfileMenu();
+});
+
+const positionNavIndicator = () => {
+  const activeButton = adminNav?.querySelector("button.is-active");
+  if (!activeButton) {
+    adminNav?.classList.remove("has-indicator");
+    return;
+  }
+  adminNav.style.setProperty("--indicator-left", `${activeButton.offsetLeft}px`);
+  adminNav.style.setProperty("--indicator-width", `${activeButton.offsetWidth}px`);
+  adminNav.classList.add("has-indicator");
+};
+
+window.addEventListener("resize", positionNavIndicator);
+document.fonts?.ready.then(positionNavIndicator);
+
 const showAdminView = (route, updateHistory = true) => {
   const nextRoute = adminViews.some((view) => view.dataset.adminView === route) ? route : "dashboard";
   adminViews.forEach((view) => {
@@ -59,12 +97,13 @@ const showAdminView = (route, updateHistory = true) => {
     if (active) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
   });
+  positionNavIndicator();
+  adminProfileTrigger.classList.toggle("is-active", group === "settings");
+  closeProfileMenu();
   if (updateHistory) history.pushState({ route: nextRoute }, "", `#${nextRoute}`);
   const isEdit = editing.id && entities[group]?.form === nextRoute;
   document.title = `${isEdit ? entities[group].editTitle : routeTitles[nextRoute]} — Admin Code Club`;
-  adminSidebar?.classList.remove("is-open");
-  adminMenuToggle?.setAttribute("aria-expanded", "false");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: "instant" });
 };
 
 // Abrir um formulário pelo menu sempre começa um cadastro novo.
@@ -77,12 +116,6 @@ document.querySelectorAll("[data-admin-route]").forEach((button) =>
   }),
 );
 window.addEventListener("popstate", () => showAdminView(location.hash.slice(1), false));
-
-adminMenuToggle?.addEventListener("click", () => {
-  const open = adminSidebar.classList.toggle("is-open");
-  adminMenuToggle.setAttribute("aria-expanded", String(open));
-  adminMenuToggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
-});
 
 /* ---------- Listas ---------- */
 
@@ -134,6 +167,7 @@ const render = (key) => {
   if (count) count.textContent = `${items.length} ${items.length === 1 ? noun : plural}`;
   const navCount = document.querySelector(`[data-nav-count="${key}"]`);
   if (navCount) navCount.textContent = store[key].length;
+  positionNavIndicator();
 };
 
 document.querySelectorAll("[data-search]").forEach((input) => input.addEventListener("input", () => render(input.dataset.search)));
